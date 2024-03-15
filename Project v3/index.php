@@ -16,30 +16,31 @@ require('connection.php');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coffee Shop Guide CMS</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="beautify.css">
 </head>
 <body>
     <?php include('nav.php'); ?>
     <main>
-        <section>
-            <h2>Welcome to the Coffee Shop Guide</h2>
-        </section>
-        <section>
+        <section class="search-section">
+            <div class="search">
             <form action="search.php" method="GET">
                 <input type="text" id="search" name="search" placeholder="Enter keyword...">
                 <button type="submit">Search</button>
             </form>
+            </div>
         </section>
         <section>
             <!-- Display coffee shop listings dynamically from the database -->
             <?php while($row = $statement -> fetch()):  ?>
+            <div id="posts">
             <div class="coffee-shop">
                 <h3><?= $row['Name'] ?></h3>
                 <p>Hours: <?= $row['Hours'] ?></p>
                 <p>Website: <a href="<?= $row['Website'] ?>" target="_blank"><?= $row['Website'] ?></a></p>
-                <p>Description: <?= $row['Description'] ?></p>
+                <p>Description: <?= substr($row['Description'], 0, 50) . (strlen($row['Description']) > 50 ? "..." : "") ?></p>
                 <!-- Add more details as necessary -->
             </div>
+                </div>
             <?php endwhile; ?>
         </section>
     </main>
