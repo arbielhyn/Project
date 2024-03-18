@@ -1,0 +1,234 @@
+/* Reset default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #edeae4;
+    padding-top: 140px; 
+}
+
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #edeae4;
+    color: #000000;
+    padding: 10px 20px;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    border-bottom: 1px solid #ccc; /* Add a 1px solid border bottom with light gray color */
+}
+
+.logo {
+    margin-right: auto; /* Pushes the logo to the left */
+}
+
+.nav-container {
+    margin-left: auto;
+    margin-top: 40px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex; /* Change to flex to enable sliding effect */
+    justify-content: center; 
+}
+
+nav ul li {
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: #282828; /* White text color */
+    text-decoration: none;
+    position: relative; /* Relative positioning for sliding effect */
+}
+
+nav ul li a::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #ffffff; /* White underline color */
+    transition: width 0.3s ease; /* Smooth transition for sliding effect */
+}
+
+nav ul li a:hover::before {
+    width: 100%; /* Slide the line to 100% width on hover */
+}
+
+/* Additional styles for search section */
+.search-section {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px; /* Add margin-top to separate from the fixed header */
+}
+
+.search {
+    margin-bottom: 5px;
+}
+
+.search input[type="text"],
+.search button {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+}
+
+.search button {
+    background-color: #A99A86;
+    color: #fff;
+    cursor: pointer;
+}
+
+.search input[type="text"] {
+    width: 500px;
+    margin-bottom: 10px;
+}
+
+main {
+    padding: 20px;
+}
+
+section {
+    margin-bottom: 20px;
+}
+
+/* coffee listing */
+.posts {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.coffee-shop-card {
+    width: 25%;
+    padding: 10px;
+    cursor: pointer; /* Add cursor pointer */
+}
+
+.coffee-shop {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    padding: 15px;
+    width: calc(100% - 20px); /* Adjusted width to fit in flex container */
+    height: 200px; /* Ensure height matches width to maintain square proportions */
+    margin: 0 10px 20px 10px; /* Add margin around cards */
+    transition: height 0.3s; /* Add transition effect */
+    display: flex; /* Add display flex */
+    flex-direction: column; /* Align items in a column */
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+}
+
+.coffee-shop h3 {
+    color: #333;
+    margin-bottom: 10px;
+    text-align: center; /* Center align by default */
+    margin: 0; /* Remove default margin */
+    width: 100%; /* Ensure h3 takes full width */
+}
+
+.coffee-shop p {
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.coffee-shop p:not(:first-child) {
+    display: none;
+}
+
+/* Display additional information when coffee shop is expanded */
+.coffee-shop.expanded p {
+    display: block;
+}
+
+.coffee-shop.expanded {
+    justify-content: flex-start;
+}
+
+.coffee-shop.expanded h3 {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+a {
+    color: #525f85;
+    text-decoration: none;
+    transition: color 0.1s ease;
+}
+
+a:hover {
+    color: #708090;
+}
+.edit {
+    font-size: 9px;
+}
+/* admin page */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.coffeeShopForm {
+    background-color: #fefdfd;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+}
+
+form input[type="text"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+button {
+    background-color: #A99A86;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #A99A86;
+}
+
+footer {
+    background-color: #edeae4;
+    color: #000000;
+    padding: 20px;
+    text-align: center;
+}
