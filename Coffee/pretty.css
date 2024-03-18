@@ -166,13 +166,13 @@ section {
 }
 
 a {
-    color: #525f85;
+    color: #856d52;
     text-decoration: none;
     transition: color 0.1s ease;
 }
 
 a:hover {
-    color: #708090;
+    color: #a8a298;
 }
 .edit {
     font-size: 9px;
@@ -231,4 +231,77 @@ footer {
     color: #000000;
     padding: 20px;
     text-align: center;
+}
+
+/* Profile style Container styling */
+.info {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.info th,
+.info td {
+    padding: 12px;
+    text-align: left;
+}
+
+.info th {
+    background-color: #e8e8e8;
+    color: rgb(40, 40, 40);
+}
+
+.info th:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.info th:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.info td {
+    padding: 12px;
+    text-align: left;
+    position: relative;
+}
+
+.info td:not(:last-child):after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 195%;
+    height: 1px;
+    background-color: #ddd;
+}
+
+.info thead {
+    position: sticky;
+    top: 0;
+    background-color: #6f9cde;
+    z-index: 1;
+}
+
+/* show styling */
+.showcase {
+    width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+}
+
+.shopinfo {
+    flex: 1; 
+    padding-right: 10px; 
+    border-right: 1px solid #ccc;
+}
+
+.comments {
+    flex: 1;
+    padding-left: 10px;
 }

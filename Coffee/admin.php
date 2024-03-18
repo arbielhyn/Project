@@ -31,7 +31,7 @@ if ($_POST && !empty($_POST['Name']) && !empty($_POST['Hours'])&& !empty($_POST[
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add New Coffee Shop</title>
-    <link rel="stylesheet" href="beautify.css">
+    <link rel="stylesheet" href="pretty.css">
 </head>
 <body>
 <?php include('nav.php'); ?>

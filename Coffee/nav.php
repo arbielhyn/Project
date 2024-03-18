@@ -9,8 +9,8 @@
             <ul>
                 <li><a href="index.php">Home</a></li>
                 <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a href="admin.php">Admin</a></li>
+                <li><a href="profile.php">Profile</a></li>
+                <li><a href="login.php">Login</a></li>
             </ul>
         </nav>
     </div>
