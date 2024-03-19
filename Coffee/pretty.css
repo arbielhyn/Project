@@ -120,22 +120,22 @@ section {
     border: 1px solid #ddd;
     border-radius: 15px;
     padding: 15px;
-    width: calc(100% - 20px); /* Adjusted width to fit in flex container */
-    height: 200px; /* Ensure height matches width to maintain square proportions */
-    margin: 0 10px 20px 10px; /* Add margin around cards */
-    transition: height 0.3s; /* Add transition effect */
-    display: flex; /* Add display flex */
-    flex-direction: column; /* Align items in a column */
-    justify-content: center; /* Center vertically */
-    align-items: center; /* Center horizontally */
+    width: calc(100% - 20px); 
+    height: 200px; 
+    margin: 0 10px 20px 10px; 
+    transition: height 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
 }
 
 .coffee-shop h3 {
     color: #333;
     margin-bottom: 10px;
-    text-align: center; /* Center align by default */
-    margin: 0; /* Remove default margin */
-    width: 100%; /* Ensure h3 takes full width */
+    text-align: center; 
+    margin: 0;
+    width: 100%; 
 }
 
 .coffee-shop p {
@@ -234,7 +234,8 @@ footer {
 .manage {
     margin-top: 20px;
     width: 1000px;
-    margin: 20px auto;
+    margin-left: auto;
+    margin-right: auto;
     padding: 20px;
     background-color: #fff;
     border-radius: 40px;
@@ -268,41 +269,37 @@ footer {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 250%;
+    width: 940px;
     height: 1px;
     background-color: #ddd;
 }
-
 /* Tab styling */
 .tab {
     overflow: hidden;
-    border: 1px solid #ccc;
-    background-color: #A99A86;
-    color: #A99A86;
-    display: flex; /* Display tabs in a row */
-    justify-content: space-between; /* Distribute tabs evenly */
-    align-items: center; /* Center-align items vertically */
-    background-color: transparent; /* Set background color to transparent */
-    border: none; /* Remove border */
+    background-color: #A99A86; /* Background color for the tab container */
+    color: #fff; /* Text color for the tabs */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px; /* Added border radius */
 }
 
 .tab button {
     background-color: transparent;
-    float: left;
     border: none;
     outline: none;
     cursor: pointer;
     padding: 14px 16px;
-    transition: 0.3s;
+    transition: background-color 0.3s; /* Transition for smoother hover effect */
 }
 
 .tab button:hover {
-    background-color: #ddd;
+    background-color: #856d52; /* Background color on hover */
 }
 
 .tab button.active {
-    background-color: #A99A86;
-    border-radius: 10px;
+    background-color: #856d52; /* Active tab background color */
+    border-radius: 10px; /* Added border radius */
 }
 
 .tabcontent.active {
@@ -333,4 +330,69 @@ footer {
 a.back-button {
     margin-left: 20px; /* Add margin to separate it from the showcase */
     padding: 20px;
+}
+
+/* login */
+.loginwrapper {
+    width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+}
+
+.image-container {
+    flex: 1;
+    padding-right: 10px;
+    border-right: 1px solid #ccc;
+}
+
+.user-image {
+    width: 100%;
+    max-width: 350px;
+    border-radius: 25px;
+}
+
+.form-container {
+    flex: 1;
+    padding-left: 10px;
+}
+
+.form-container h2 {
+    margin-top: 0;
+}
+
+.form-container form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-container form input[type="text"],
+.form-container form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.form-container form input[type="submit"] {
+    background-color: #A99A86;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-container form input[type="submit"]:hover {
+    background-color: #856d52;
+}
+
+.form-container .error-message {
+    color: red;
+    margin-bottom: 10px;
+    text-align: center;
 }
