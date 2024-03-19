@@ -22,12 +22,6 @@ require('connection.php');
     <?php include('nav.php'); ?>
     <main>
         <section class="search-section">
-            <div class="search">
-                <form action="search.php" method="GET">
-                    <input type="text" id="search" name="search" placeholder="Enter keyword...">
-                    <button type="submit">Search</button>
-                </form>
-            </div>
         </section>
         <section class="posts">
             <!-- Display coffee shop listings dynamically from the database -->

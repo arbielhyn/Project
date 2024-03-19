@@ -4,6 +4,12 @@
             <img src="images/logo.jpg" alt="Description of the image" style="width: 150px; height: auto;">
         </a>
     </div>
+    <div class="search">
+                <form action="search.php" method="GET">
+                    <input type="text" id="search" name="search" placeholder="Enter keyword...">
+                    <button type="submit">Search</button>
+                </form>
+    </div>
     <div class="nav-container">
         <nav>
             <ul>

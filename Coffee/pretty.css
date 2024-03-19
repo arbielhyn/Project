@@ -10,7 +10,6 @@ body {
     background-color: #edeae4;
     padding-top: 140px; 
 }
-
 header {
     position: fixed;
     top: 0;
@@ -18,7 +17,6 @@ header {
     background-color: #edeae4;
     color: #000000;
     padding: 10px 20px;
-    text-align: center;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -32,13 +30,15 @@ header {
 
 .nav-container {
     margin-left: auto;
-    margin-top: 40px;
+    margin-top: 0; /* Adjust margin-top as needed */
 }
 
 nav ul {
     list-style: none;
     display: flex; /* Change to flex to enable sliding effect */
     justify-content: center; 
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
 }
 
 nav ul li {
@@ -66,17 +66,14 @@ nav ul li a:hover::before {
     width: 100%; /* Slide the line to 100% width on hover */
 }
 
-/* Additional styles for search section */
-.search-section {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px; /* Add margin-top to separate from the fixed header */
+.search {
+    margin-left: auto;
+    margin-right: 20px; /* Adjust margin-right as needed */
 }
 
-.search {
-    margin-bottom: 5px;
+.search form {
+    display: flex;
+    align-items: center;
 }
 
 .search input[type="text"],
@@ -94,10 +91,10 @@ nav ul li a:hover::before {
 }
 
 .search input[type="text"] {
-    width: 500px;
-    margin-bottom: 10px;
+    width: 500px; /* Adjust width as needed */
+    margin-right: 10px; /* Add spacing between input and button */
 }
-
+/* index styles */
 main {
     padding: 20px;
 }
@@ -235,20 +232,19 @@ footer {
 
 /* Profile style Container styling */
 .info {
-    width: 100%;
-    border-collapse: collapse;
     margin-top: 20px;
+    width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .info th,
 .info td {
     padding: 12px;
     text-align: left;
-}
-
-.info th {
-    background-color: #e8e8e8;
-    color: rgb(40, 40, 40);
 }
 
 .info th:first-child {
@@ -272,16 +268,53 @@ footer {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 195%;
+    width: 130%;
     height: 1px;
     background-color: #ddd;
 }
 
-.info thead {
-    position: sticky;
-    top: 0;
-    background-color: #6f9cde;
-    z-index: 1;
+/* Tab styling */
+.tab {
+    overflow: hidden;
+    background-color: #f1f1f1;
+    margin-top: 20px; /* Adjust margin-top as needed */
+    width: 1000px;
+    margin: 20px auto;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+/* Make the tab content visible when it's active */
+.tabcontent.active {
+    display: block;
 }
 
 /* show styling */
@@ -304,4 +337,8 @@ footer {
 .comments {
     flex: 1;
     padding-left: 10px;
+}
+a.back-button {
+    margin-left: 20px; /* Add margin to separate it from the showcase */
+    padding: 20px;
 }

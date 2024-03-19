@@ -25,7 +25,11 @@ require('authentication.php');
 
     <button><a href="admin.php">Add New Shop</a></button>
 
-    <section class="manage">
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'manage')">Manage</button>
+    </div>
+    
+    <section class="manage" class="tabcontent">
         <!-- Display coffee shop listings dynamically from the database -->
         <div>
             <table class="info"> <!-- Updated class name to "info" -->
@@ -45,6 +49,7 @@ require('authentication.php');
             </table>
         </div>
     </section>
+    <script src="functions.js"></script>
     <footer>
         <p>&copy; 2024 Coffee Shop Guide CMS. All rights reserved.</p>
     </footer>
