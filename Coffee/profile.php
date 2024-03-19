@@ -2,14 +2,15 @@
 require('connection.php');
 require('authentication.php');
 
-     // SQL is written as a String.
-     $query = "SELECT * FROM cafe";
+// First query to select data from the "cafe" table
+$query_cafe = "SELECT * FROM cafe";
+$statement_cafe = $db->prepare($query_cafe);
+$statement_cafe->execute();
 
-     // A PDO::Statement is prepared from the query.
-     $statement = $db->prepare($query);
-
-     // Execution on the DB server is delayed until we execute().
-     $statement->execute(); 
+// Second query to select data from the "category" table
+$query_category = "SELECT * FROM category";
+$statement_category = $db->prepare($query_category);
+$statement_category->execute();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,6 +20,12 @@ require('authentication.php');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="pretty.css">
     <title>Edit Coffee Shop</title>
+    <style>
+        /* Hide initially */
+        .info {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <?php include('nav.php'); ?>
@@ -30,25 +37,40 @@ require('authentication.php');
     </a>
     
     <section class="manage">
-        <!-- Display coffee shop listings dynamically from the database -->
-
         <div class="tab">
-            <button class="tablinks" onclick="openTab(event, 'manage')">Manage</button>
+            <button class="tablinks" onclick="toggleTable('cafeTable')">Show Cafe</button>
+            <button class="tablinks" onclick="toggleTable('categoryTable')">Show Category</button>
             <button class="tablinks" onclick="window.location.href = 'admin.php';">Add New Shop</button>
         </div>
 
         <div>
-            <table class="info"> <!-- Updated class name to "info" -->
+            <table class="info" id="cafeTable">
                 <thead>
                     <tr>
                         <th>Name</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while($row = $statement->fetch()): ?>
+                    <?php while($row = $statement_cafe->fetch()): ?>
                     <tr>
                         <td><?= $row['Name'] ?></td>
                         <td class="edit"><a href="update.php?id=<?= $row['Shop_id'] ?>"><button>Edit</button></a></td>
+                    </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+
+            <table class="info" id="categoryTable">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while($row = $statement_category->fetch()): ?>
+                    <tr>
+                        <td><?= $row['Type'] ?></td>
+                        <td class="edit"><a href="update.php?id=<?= $row['Type_id'] ?>"><button>Edit</button></a></td>
                     </tr>
                     <?php endwhile; ?>
                 </tbody>
@@ -59,5 +81,15 @@ require('authentication.php');
     <footer>
         <p>&copy; 2024 Coffee Shop Guide CMS. All rights reserved.</p>
     </footer>
+    <script>
+        function toggleTable(tableId) {
+            var table = document.getElementById(tableId);
+            if (table.style.display === "none") {
+                table.style.display = "block";
+            } else {
+                table.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>
