@@ -22,15 +22,15 @@ require('authentication.php');
 </head>
 <body>
     <?php include('nav.php'); ?>
-
-    <button><a href="admin.php">Add New Shop</a></button>
-
-    <div class="tab">
-        <button class="tablinks" onclick="openTab(event, 'manage')">Manage</button>
-    </div>
     
-    <section class="manage" class="tabcontent">
+    <section class="manage">
         <!-- Display coffee shop listings dynamically from the database -->
+
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'manage')">Manage</button>
+            <button class="tablinks" onclick="openTab(event, 'manage')"><a href="admin.php">Add New Shop</a></button>
+        </div>
+
         <div>
             <table class="info"> <!-- Updated class name to "info" -->
                 <thead>

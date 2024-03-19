@@ -32,9 +32,10 @@ if (isset($_GET['id'])) { // Change 'shop_id' to 'id'
     <div class="showcase">
         <?php if(isset($row)): ?>
         <div class="shopinfo">
-            <h3><?= $row['Name'] ?></h3>
+        <img class="coffeeimg" src="images/placeholder.jpeg" style="width: 450px; height: auto; border-radius: 25px;">
+            <h3><?= $row['Name'] ?></h3><br>
             <p><?= $row['Hours'] ?></p>
-            <p><a href="<?= $row['Website'] ?>" target="_blank"><?= $row['Website'] ?></a></p>
+            <p><a href="<?= $row['Website'] ?>" target="_blank"><?= $row['Website'] ?></a></p><br>
             <p><?= $row['Description'] ?></p>
         </div>
         <?php else: ?>

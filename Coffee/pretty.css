@@ -231,7 +231,7 @@ footer {
 }
 
 /* Profile style Container styling */
-.info {
+.manage {
     margin-top: 20px;
     width: 1000px;
     margin: 20px auto;
@@ -268,7 +268,7 @@ footer {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 130%;
+    width: 250%;
     height: 1px;
     background-color: #ddd;
 }
@@ -276,16 +276,18 @@ footer {
 /* Tab styling */
 .tab {
     overflow: hidden;
-    background-color: #f1f1f1;
-    margin-top: 20px; /* Adjust margin-top as needed */
-    width: 1000px;
-    margin: 20px auto;
-    border-radius: 40px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
+    background-color: #A99A86;
+    color: #A99A86;
+    display: flex; /* Display tabs in a row */
+    justify-content: space-between; /* Distribute tabs evenly */
+    align-items: center; /* Center-align items vertically */
+    background-color: transparent; /* Set background color to transparent */
+    border: none; /* Remove border */
 }
 
 .tab button {
-    background-color: inherit;
+    background-color: transparent;
     float: left;
     border: none;
     outline: none;
@@ -294,25 +296,15 @@ footer {
     transition: 0.3s;
 }
 
-/* Change background color of buttons on hover */
 .tab button:hover {
     background-color: #ddd;
 }
 
-/* Create an active/current tablink class */
 .tab button.active {
-    background-color: #ccc;
+    background-color: #A99A86;
+    border-radius: 10px;
 }
 
-/* Style the tab content */
-.tabcontent {
-    display: none;
-    padding: 6px 12px;
-    border: 1px solid #ccc;
-    border-top: none;
-}
-
-/* Make the tab content visible when it's active */
 .tabcontent.active {
     display: block;
 }
