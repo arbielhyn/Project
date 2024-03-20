@@ -40,7 +40,6 @@ $statement_category->execute();
         <div class="tab">
             <button class="tablinks" onclick="toggleTable('cafeTable')">Show Cafe</button>
             <button class="tablinks" onclick="toggleTable('categoryTable')">Show Category</button>
-            <button class="tablinks" onclick="window.location.href = 'admin.php';">Add New Shop</button>
         </div>
 
         <div>
@@ -48,6 +47,9 @@ $statement_category->execute();
                 <thead>
                     <tr>
                         <th>Name</th>
+                        <th colspan="2"> <!-- Span across two columns -->
+                            <a href="coffee.php" class="add-button">+ Add</a>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -64,13 +66,16 @@ $statement_category->execute();
                 <thead>
                     <tr>
                         <th>Type</th>
+                        <th colspan="2"> <!-- Span across two columns -->
+                            <a href="type.php" class="add-button">+ Add</a>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php while($row = $statement_category->fetch()): ?>
                     <tr>
-                        <td><?= $row['Type'] ?></td>
-                        <td class="edit"><a href="update.php?id=<?= $row['Type_id'] ?>"><button>Edit</button></a></td>
+                        <td><?= $row['type'] ?></td>
+                        <td class="edit"><a href="update.php?id=<?= $row['type_id'] ?>"><button>Edit</button></a></td>
                     </tr>
                     <?php endwhile; ?>
                 </tbody>
@@ -83,12 +88,12 @@ $statement_category->execute();
     </footer>
     <script>
         function toggleTable(tableId) {
-            var table = document.getElementById(tableId);
-            if (table.style.display === "none") {
-                table.style.display = "block";
-            } else {
-                table.style.display = "none";
+            var tables = document.querySelectorAll('.info');
+            for (var i = 0; i < tables.length; i++) {
+                tables[i].style.display = "none";
             }
+            var table = document.getElementById(tableId);
+            table.style.display = "block";
         }
     </script>
 </body>
