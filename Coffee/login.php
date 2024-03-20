@@ -1,27 +1,29 @@
 <?php
+session_start();
 require('connection.php');
 
-// Login
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
+    $username = $_POST['Username'];
+    $password = $_POST['Password'];
 
-    // Retrieve hashed password from the database based on the username
-    $query = "SELECT * FROM users WHERE username = :username";
-    $statement = $db->prepare($query);
-    $statement->execute(array(':username' => $username));
-    $user = $statement->fetch();
+    // Sanitize input data
+    $username = filter_var($username, FILTER_SANITIZE_STRING);
 
-    // Verify password
-    if ($user && password_verify($password, $user['password'])) {
-        // Set session variable to indicate user is logged in
-        session_start();
-        $_SESSION['username'] = $username;
-        // Redirect to dashboard or user profile page
+    // Retrieve user data from the database
+    $stmt = $db->prepare("SELECT * FROM user WHERE Username = ?");
+    $stmt->execute([$username]);
+    $user = $stmt->fetch();
+
+    if ($user && password_verify($password, $user['Password'])) {
+        // Authentication successful, set session variables
+        $_SESSION['user_id'] = $user['user_id']; // Use lowercase user_id consistent with the database
+        $_SESSION['username'] = $user['Username']; // Capitalize 'Username' to match database column name
+
+        // Redirect to index.php or any other authenticated page
         header("Location: index.php");
         exit();
     } else {
-        $error = "Invalid username or password";
+        $login_error = "Invalid username or password.";
     }
 }
 ?>
@@ -46,15 +48,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="form-container">
         <div>
             <h2>Log In</h2><br>
-            <form action="register.php" method="POST">
+            <!-- Corrected action to login.php -->
+            <form action="login.php" method="POST">
                 <input type="hidden" name="login">
                 <div>
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" required>
+                    <label for="Username">Username:</label>
+                    <input type="text" id="Username" name="Username" required>
                 </div>
                 <div>
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" required>
+                    <label for="Password">Password:</label>
+                    <input type="password" id="Password" name="Password" required>
                 </div>
                 <div>
                     <input type="submit" value="Login">

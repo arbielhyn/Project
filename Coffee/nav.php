@@ -1,3 +1,9 @@
+<?php
+session_start();
+require('connection.php');
+
+?>
+
 <header>
     <div class="logo">
         <a href="index.php">
@@ -15,7 +21,16 @@
             <ul>
                 <li><a href="index.php">Home</a></li>
                 <li><a href="profile.php">Profile</a></li>
-                <li><a href="login.php">Sign In</a></li>
+                <?php
+                // Check if user is logged in
+                if (isset($_SESSION['username']) && !empty($_SESSION['username'])) {
+                    // User is logged in, display Log Out link
+                    echo '<li><a href="logout.php">Log Out</a></li>';
+                } else {
+                    // User is not logged in, display Sign In link
+                    echo '<li><a href="login.php">Sign In</a></li>';
+                }
+                ?>
             </ul>
         </nav>
     </div>
