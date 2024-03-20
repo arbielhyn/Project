@@ -14,8 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $confirm_password = $_POST['confirm_password']; // Corrected field name
  
     // Validate input lengths
-    if (strlen($password) <= 8) {
-        $error = "Password must be more than 8 characters.";
+    if (strlen($password) < 8) {
+        $error = "Password must be at least 8 characters long.";
     } elseif ($password !== $confirm_password) {
         $error = "Passwords do not match.";
     } else {
@@ -42,7 +42,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
  
             if ($success) {
                 $success_message = "Account created successfully!";
-                header("Location: index.php");
+                header("Location: login.php");
+                exit; // Ensure script stops execution after redirection
             } else {
                 $error = "Registration failed. Please try again later.";
             }
