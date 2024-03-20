@@ -62,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </form>
         </div>
         <div>
-        <p>or <a href="register.php">sign up</a></p>
+        <p>or <a href="signup.php">sign up</a></p>
         </div>
     </div>
     </div>
