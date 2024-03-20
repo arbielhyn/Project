@@ -45,17 +45,17 @@ $statement_category->execute();
             <table class="info" id="cafeTable">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th colspan="2"> <!-- Span across two columns -->
-                            <a href="coffee.php" class="add-button">+ Add</a>
+                        <th><h3>Name</h3></th>
+                        <th colspan="2"><h3> <!-- Span across two columns -->
+                            <a href="coffee.php" class="add-button">+ Add</a></h3>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php while($row = $statement_cafe->fetch()): ?>
-                    <tr>
-                        <td><?= $row['Name'] ?></td>
-                        <td class="edit"><a href="update.php?id=<?= $row['Shop_id'] ?>"><button>Edit</button></a></td>
+                    <tr class="edit-wrapper">
+                        <td class="edit-cell"><?= $row['Name'] ?></td>
+                        <td class="name-cell"><a href="update.php?id=<?= $row['Shop_id'] ?>"><button>Edit</button></a></td>
                     </tr>
                     <?php endwhile; ?>
                 </tbody>
@@ -73,8 +73,8 @@ $statement_category->execute();
                 <tbody>
                     <?php while($row = $statement_category->fetch()): ?>
                     <tr>
-                        <td><?= $row['type'] ?></td>
-                        <td class="edit"><a href="update.php?id=<?= $row['type_id'] ?>"><button>Edit</button></a></td>
+                        <td class="edit-cell"><?= $row['type'] ?></td>
+                        <td class="name-cell"><a href="update.php?id=<?= $row['type_id'] ?>"><button>Edit</button></a></td>
                     </tr>
                     <?php endwhile; ?>
                 </tbody>

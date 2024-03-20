@@ -43,7 +43,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($success) {
                 $success_message = "Account created successfully!";
                 header("Location: login.php");
-                exit; // Ensure script stops execution after redirection
             } else {
                 $error = "Registration failed. Please try again later.";
             }

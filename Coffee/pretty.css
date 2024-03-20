@@ -171,9 +171,7 @@ a {
 a:hover {
     color: #a8a298;
 }
-.edit {
-    font-size: 9px;
-}
+
 /* admin page */
 .container {
     max-width: 800px;
@@ -248,6 +246,9 @@ footer {
     text-align: left;
 }
 
+.info th {
+    border-bottom: 1px solid #ccc; /* Add a solid black border bottom */
+}
 .info th:first-child {
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
@@ -273,28 +274,40 @@ footer {
     height: 1px;
     background-color: #ddd;
 }
+
+.edit-cell {
+    width: 850px; /* Adjust the width of the edit cell as needed */
+}
+
+.name-cell {
+    width: calc(100% - 100px); /* Adjust the width of the name cell based on the edit cell width */
+}
 /* Tab styling */
 .tab {
     overflow: hidden;
-    background-color: #A99A86; /* Background color for the tab container */
+    background-color: #fff; /* Background color for the tab container */
     color: #fff; /* Text color for the tabs */
     display: flex;
-    justify-content: space-between;
+    justify-content:left;
     align-items: center;
     border-radius: 10px; /* Added border radius */
 }
 
 .tab button {
     background-color: transparent;
+    color: #A99A86;
     border: none;
+    border-radius: 35px;
     outline: none;
     cursor: pointer;
     padding: 14px 16px;
+    margin-right: 5px;
     transition: background-color 0.3s; /* Transition for smoother hover effect */
 }
 
 .tab button:hover {
     background-color: #856d52; /* Background color on hover */
+    color: #fff;
 }
 
 .tab button.active {
