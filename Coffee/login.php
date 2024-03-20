@@ -2,6 +2,8 @@
 session_start();
 require('connection.php');
 
+$login_error = ""; // Initialize login error message
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     $username = $_POST['Username'];
     $password = $_POST['Password'];
@@ -19,8 +21,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
         $_SESSION['user_id'] = $user['user_id']; // Use lowercase user_id consistent with the database
         $_SESSION['username'] = $user['Username']; // Capitalize 'Username' to match database column name
 
+        // Set login success session variable
+        $_SESSION['login_success'] = true;
+
         // Redirect to index.php or any other authenticated page
-        header("Location: index.php");
+        header("Location: login.php");
         exit();
     } else {
         $login_error = "Invalid username or password.";
@@ -41,33 +46,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     <?php include('nav.php'); ?>
 
     <div class="loginwrapper">
-    <div>
-        <img src="images/user.jpg" style="width: 350px; height: auto; border-radius: 25px;">
-    </div>
+        <div>
+            <img src="images/user.jpg" style="width: 350px; height: auto; border-radius: 25px;">
+        </div>
 
-    <div class="form-container">
-        <div>
-            <h2>Log In</h2><br>
-            <!-- Corrected action to login.php -->
-            <form action="login.php" method="POST">
-                <input type="hidden" name="login">
-                <div>
-                    <label for="Username">Username:</label>
-                    <input type="text" id="Username" name="Username" required>
-                </div>
-                <div>
-                    <label for="Password">Password:</label>
-                    <input type="password" id="Password" name="Password" required>
-                </div>
-                <div>
-                    <input type="submit" value="Login">
-                </div>
-            </form>
+        <div class="form-container">
+            <div>
+                <h2>Log In</h2>
+                <!-- Display login error message if any -->
+                <?php if (!empty($login_error)): ?>
+                    <p style="color: red;"><?php echo $login_error; ?></p>
+                <?php elseif (isset($_SESSION['login_success']) && $_SESSION['login_success']): ?>
+                    <p style="color: green;">Login successful!</p>
+                <?php endif; ?>
+                <!-- Corrected action to login.php -->
+                <form action="login.php" method="POST">
+                    <input type="hidden" name="login">
+                    <div>
+                        <label for="Username">Username:</label>
+                        <input type="text" id="Username" name="Username" required>
+                    </div>
+                    <div>
+                        <label for="Password">Password:</label>
+                        <input type="password" id="Password" name="Password" required>
+                    </div>
+                    <div>
+                        <input type="submit" value="Login">
+                    </div>
+                </form>
+            </div>
+            <div>
+                <p>or <a href="signup.php">sign up</a></p>
+            </div>
         </div>
-        <div>
-        <p>or <a href="signup.php">sign up</a></p>
-        </div>
-    </div>
     </div>
 </body>
 </html>

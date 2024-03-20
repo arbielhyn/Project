@@ -1,6 +1,5 @@
 <?php
 require('connection.php');
-require('authentication.php');
 
 // First query to select data from the "cafe" table
 $query_cafe = "SELECT * FROM cafe";

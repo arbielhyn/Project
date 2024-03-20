@@ -34,6 +34,7 @@ require('connection.php');
             <?php endwhile; ?>
         </section>
     </main>
+
     <script src="functions.js"></script>
     <footer>
         <p>&copy; 2024 Coffee Shop Guide CMS. All rights reserved.</p>
