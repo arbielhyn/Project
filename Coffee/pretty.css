@@ -148,19 +148,6 @@ section {
 }
 
 /* Display additional information when coffee shop is expanded */
-.coffee-shop.expanded p {
-    display: block;
-}
-
-.coffee-shop.expanded {
-    justify-content: flex-start;
-}
-
-.coffee-shop.expanded h3 {
-    text-align: center;
-    margin-top: 10px;
-    margin-bottom: 20px;
-}
 
 a {
     color: #856d52;
@@ -200,6 +187,7 @@ label {
 }
 
 form input[type="text"],
+form input[type="password"],
 textarea {
     width: 100%;
     padding: 10px;

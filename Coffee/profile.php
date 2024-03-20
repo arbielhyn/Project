@@ -10,6 +10,11 @@ $statement_cafe->execute();
 $query_category = "SELECT * FROM category";
 $statement_category = $db->prepare($query_category);
 $statement_category->execute();
+
+// Third query to select data from the "user" table
+$query_user = "SELECT * FROM user";
+$statement_user = $db->prepare($query_user);
+$statement_user->execute();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,6 +44,7 @@ $statement_category->execute();
         <div class="tab">
             <button class="tablinks" onclick="toggleTable('cafeTable')">Show Cafe</button>
             <button class="tablinks" onclick="toggleTable('categoryTable')">Show Category</button>
+            <button class="tablinks" onclick="toggleTable('userTable')">Manage Users</button>
         </div>
 
         <div>
@@ -74,7 +80,23 @@ $statement_category->execute();
                     <?php while($row = $statement_category->fetch()): ?>
                     <tr>
                         <td class="edit-cell"><?= $row['type'] ?></td>
-                        <td class="name-cell"><a href="update.php?id=<?= $row['type_id'] ?>"><button>Edit</button></a></td>
+                        <td class="name-cell"><a href="type.php?id=<?= $row['type_id'] ?>"><button>Edit</button></a></td>
+                    </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+
+            <table class="info" id="userTable">
+                <thead>
+                    <tr>
+                        <th>Users</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while($row = $statement_user->fetch()): ?>
+                    <tr>
+                        <td class="edit-cell"><?= $row['Username'] ?></td>
+                        <td class="name-cell"><a href="user.php?id=<?= $row['user_id'] ?>"><button>Edit</button></a></td>
                     </tr>
                     <?php endwhile; ?>
                 </tbody>

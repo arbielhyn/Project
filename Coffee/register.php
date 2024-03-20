@@ -42,11 +42,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
  
             if ($success) {
                 $success_message = "Account created successfully!";
-                header("Location: login.php");
             } else {
                 $error = "Registration failed. Please try again later.";
             }
         }
+    }
+
+    // Check if error exists before redirecting
+    if (isset($error)) {
+        // Error exists, display it without redirection
+        // You can choose to display the error message wherever appropriate in your HTML
+    } elseif (isset($success_message)) {
+        // Registration was successful, redirect to login page
+        header("Location: login.php");
+        exit; // Ensure script stops execution after redirection
     }
 }
 ?>
