@@ -103,7 +103,7 @@ section {
     margin-bottom: 20px;
 }
 
-/* coffee listing */
+/* post listing */
 .posts {
     display: flex;
     flex-wrap: wrap;
@@ -159,7 +159,7 @@ a:hover {
     color: #a8a298;
 }
 
-/* admin page */
+/* profile page */
 .container {
     max-width: 800px;
     margin: 0 auto;
@@ -325,7 +325,6 @@ footer {
 }
 
 .comments {
-    flex: 1;
     padding-left: 10px;
 }
 a.back-button {
@@ -333,6 +332,25 @@ a.back-button {
     padding: 20px;
 }
 
+.comment-container {
+    position: relative;
+    display: inline-block; /* Ensures the container doesn't take full width */
+}
+
+.comment-textarea {
+    border-radius: 30px;
+    resize: none;
+    width: calc(100% - 65px); /* Adjust the width of the textarea as needed */
+}
+
+.comment-button {
+    position: absolute;
+    border-radius: 500px;
+    padding: 10px 12px;
+    top: 40%;
+    right: 10px; /* Adjust the distance from the right side as needed */
+    transform: translateY(-50%);
+}
 /* login */
 .loginwrapper {
     width: 1000px;

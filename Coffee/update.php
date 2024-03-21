@@ -2,6 +2,8 @@
 require('connection.php');
 require('authentication.php');
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 // Function to validate coffee shop details
 function isValidCoffeeShop($name, $hours, $website, $description) {
     return strlen($name) >= 1 && strlen($hours) >= 1 && strlen($website) >= 1 && strlen($description) >= 1;

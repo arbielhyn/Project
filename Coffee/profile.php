@@ -16,7 +16,7 @@ $query_user = "SELECT * FROM user";
 $statement_user = $db->prepare($query_user);
 $statement_user->execute();
 ?>
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">

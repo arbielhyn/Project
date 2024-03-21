@@ -10,6 +10,7 @@ if (isset($_GET['id'])) { // Change 'shop_id' to 'id'
 
     $row = $statement->fetch();
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,9 +42,17 @@ if (isset($_GET['id'])) { // Change 'shop_id' to 'id'
         <?php endif; ?>
 
         <div class="comments">
-            <h3>Comments</h3>
-
+    <h3>Comments</h3>
+    <form action="submit_comment.php" method="POST">
+        <input type="hidden" name="shop_id" value="<?= $shopId ?>">
+        <div class="comment-container">
+            <textarea class="comment-textarea" name="comment" rows="2" cols="50" placeholder="Write your comment here"></textarea>
+            <button type="submit" class="comment-button"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-up-circle" viewBox="0 0 16 15">
+  <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"/>
+</svg></button>
         </div>
+    </form>
+</div>
     </div>
 
     <footer>
