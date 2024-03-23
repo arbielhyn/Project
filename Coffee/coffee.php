@@ -1,4 +1,7 @@
 <?php
+
+require('connection.php');
+require('authentication.php');
 // Include necessary functions for file upload and image validation
 function file_upload_path($original_filename, $upload_subfolder_name = 'uploads') {
     $current_folder = dirname(__FILE__);
@@ -18,9 +21,6 @@ function file_is_an_image($temporary_path, $new_path) {
     
     return $file_extension_is_valid && $mime_type_is_valid;
 }
-
-require('connection.php');
-require('authentication.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($_POST['Name']) && !empty($_POST['Description'])) {
@@ -54,12 +54,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $statement->bindValue(':Image', $image_filename); // Save only the image filename
 
         if ($statement->execute()) {
-            echo "Success";
+            echo "<script>alert('Success');</script>";
         } else {
-            echo "Failed to add coffee shop";
+            echo "<script>alert('Failed to add coffee shop');</script>";
         }
     } else {
-        echo "All fields are required.";
+        echo "<script>alert('All fields are required.');</script>";
     }
 }
 ?>
