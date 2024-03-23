@@ -7,7 +7,7 @@ function file_upload_path($original_filename, $upload_subfolder_name = 'uploads'
 }
 
 function file_is_an_image($temporary_path, $new_path) {
-    $allowed_mime_types = ['image/gif', 'image/jpeg', 'image/png'];
+    $allowed_mime_types = ['image/gif', 'image/jpeg', 'image/png', 'image/jpg'];
     $allowed_file_extensions = ['gif', 'jpg', 'jpeg', 'png'];
     
     $actual_file_extension = pathinfo($new_path, PATHINFO_EXTENSION);
@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Check if an image file was uploaded
         if (!empty($_FILES['image']['name'])) {
-            $image_filename = $_FILES['image']['name'];
+            $image_filename = $_FILES['image']['name']; // Get the image filename
             $temporary_image_path = $_FILES['image']['tmp_name'];
             $new_image_path = file_upload_path($image_filename);
             
@@ -41,6 +41,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Image upload failed validation
                 echo "Failed to upload image. Please ensure you are uploading a valid image file (JPEG, PNG, or GIF).";
             }
+        } else {
+            // If no image was uploaded, set the filename to null
+            $image_filename = null;
         }
 
         // Insert coffee shop data into the database
@@ -48,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $statement = $db->prepare($query);
         $statement->bindValue(':Name', $name);
         $statement->bindValue(':Description', $description);
-        $statement->bindValue(':Image', $image_filename ?? null); // Use null if no image was uploaded
+        $statement->bindValue(':Image', $image_filename); // Save only the image filename
 
         if ($statement->execute()) {
             echo "Success";
@@ -80,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="container">
     <h1>Add New Coffee Shop</h1>
-    <form class="coffeeShopForm" action="admin.php" method="POST">
+    <form class="coffeeShopForm" action="coffee.php" method="POST" enctype="multipart/form-data">
         <label for="Name">Name:</label>
         <input type="text" id="Name" name="Name"><br>
 
