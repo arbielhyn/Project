@@ -31,6 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "<script>alert('Comment field is required');</script>";
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
