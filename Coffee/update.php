@@ -2,6 +2,9 @@
 require('connection.php');
 require('authentication.php');
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 // Function to validate coffee shop details
 function isValidCoffeeShop($name, $description) {
     return strlen($name) >= 1 && strlen($description) >= 1;
@@ -34,6 +37,27 @@ if ($_POST && isset($_POST['Name']) && isset($_POST['Description']) && isset($_P
 
     // Validate coffee shop details
     if (isValidCoffeeShop($name, $description)) {
+        // Remove image if requested
+        if (isset($_POST["removeImage"])) {
+            // Retrieve the image file path from the database
+            $query = "SELECT Image FROM cafe WHERE Shop_id = :Shop_id";
+            $statement = $db->prepare($query);
+            $statement->bindValue(':Shop_id', $id, PDO::PARAM_INT);
+            $statement->execute();
+            $imageFilePath = $statement->fetchColumn();
+
+            // Delete the image file from the file system
+            if ($imageFilePath && file_exists($imageFilePath)) {
+                unlink($imageFilePath);
+            }
+
+            // Update the 'Image' column in the database to remove the image reference
+            $query = "UPDATE cafe SET Image = '' WHERE Shop_id = :Shop_id";
+            $statement = $db->prepare($query);
+            $statement->bindValue(':Shop_id', $id, PDO::PARAM_INT);
+            $statement->execute();
+        }
+
         // Build the parameterized SQL query and bind to the above sanitized values.
         $query     = "UPDATE cafe SET Name = :Name, Description = :Description WHERE Shop_id = :Shop_id";
         $statement = $db->prepare($query);
@@ -98,6 +122,9 @@ if ($_POST && isset($_POST['Name']) && isset($_POST['Description']) && isset($_P
             
             <label for="Description">Description</label>
             <textarea type="text" id="Description" name="Description" rows="5"><?= $shop['Description'] ?></textarea><br>
+
+            <input type="checkbox" id="removeImage" name="removeImage">
+            <label for="removeImage">Remove Image</label><br>
             
             <button type="submit" value="Update">Update</button>
             <button type="submit" name="delete_shop" value="Delete" onclick="return confirm('Are you sure you want to delete this coffee shop?');">Delete</button>
