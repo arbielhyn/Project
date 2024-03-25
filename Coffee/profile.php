@@ -108,6 +108,9 @@ $statement_user->execute();
         <p>&copy; 2024 Coffee Shop Guide CMS. All rights reserved.</p>
     </footer>
     <script>
+            window.onload = function() {
+        toggleTable('cafeTable'); // Open cafe table by default when the page loads
+    };
         function toggleTable(tableId) {
             var tables = document.querySelectorAll('.info');
             for (var i = 0; i < tables.length; i++) {

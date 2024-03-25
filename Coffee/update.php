@@ -2,10 +2,9 @@
 require('connection.php');
 require('authentication.php');
 
-
 // Function to validate coffee shop details
-function isValidCoffeeShop($name, $hours, $website, $description) {
-    return strlen($name) >= 1 && strlen($hours) >= 1 && strlen($website) >= 1 && strlen($description) >= 1;
+function isValidCoffeeShop($name, $description) {
+    return strlen($name) >= 1 && strlen($description) >= 1;
 }
 
 // Delete coffee shop
@@ -26,23 +25,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["delete_shop"])) {
     exit;
 }
 
-// UPDATE coffee shop if Name, Hours, Website, Description, and id are present in POST.
-if ($_POST && isset($_POST['Name']) && isset($_POST['Hours']) && isset($_POST['Website']) && isset($_POST['Description']) && isset($_POST['id'])) {
+// UPDATE coffee shop if Name, Description, and id are present in POST.
+if ($_POST && isset($_POST['Name']) && isset($_POST['Description']) && isset($_POST['id'])) {
     // Sanitize user input to escape HTML entities and filter out dangerous characters.
     $name  = filter_input(INPUT_POST, 'Name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $hours = filter_input(INPUT_POST, 'Hours', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $website = filter_input(INPUT_POST, 'Website', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $description = filter_input(INPUT_POST, 'Description', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $id      = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
 
     // Validate coffee shop details
-    if (isValidCoffeeShop($name, $hours, $website, $description)) {
+    if (isValidCoffeeShop($name, $description)) {
         // Build the parameterized SQL query and bind to the above sanitized values.
-        $query     = "UPDATE cafe SET Name = :Name, Hours = :Hours, Website = :Website, Description = :Description WHERE Shop_id = :Shop_id";
+        $query     = "UPDATE cafe SET Name = :Name, Description = :Description WHERE Shop_id = :Shop_id";
         $statement = $db->prepare($query);
         $statement->bindValue(':Name', $name);
-        $statement->bindValue(':Hours', $hours);
-        $statement->bindValue(':Website', $website);
         $statement->bindValue(':Description', $description);
         $statement->bindValue(':Shop_id', $id, PDO::PARAM_INT);
 
@@ -100,12 +95,6 @@ if ($_POST && isset($_POST['Name']) && isset($_POST['Hours']) && isset($_POST['W
             
             <label for="Name">Name</label>
             <input type="text" id="Name" name="Name" value="<?= $shop['Name'] ?>"><br>
-            
-            <label for="Hours">Hours</label>
-            <input type="text" id="Hours" name="Hours" value="<?= $shop['Hours'] ?>"><br>
-            
-            <label for="Website">Website</label>
-            <input type="text" id="Website" name="Website" value="<?= $shop['Website'] ?>"><br>
             
             <label for="Description">Description</label>
             <textarea type="text" id="Description" name="Description" rows="5"><?= $shop['Description'] ?></textarea><br>

@@ -1,13 +1,11 @@
 <?php
 require('connection.php');
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-if (isset($_GET['id'])) { // Change 'shop_id' to 'id'
-    $shopId = $_GET['id']; // Change variable name from $postId to $shopId
-    $query = "SELECT * FROM cafe WHERE Shop_id = :Shop_id"; // Change 'id' to 'Shop_id'
+if (isset($_GET['id'])) {
+    $shopId = $_GET['id'];
+    $query = "SELECT * FROM cafe WHERE Shop_id = :Shop_id";
     $statement = $db->prepare($query);
-    $statement->bindParam(':Shop_id', $shopId); // Change ':Shop_id' to '$shopId'
+    $statement->bindParam(':Shop_id', $shopId);
     $statement->execute();
 
     $row = $statement->fetch();
@@ -24,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         if ($statement->execute()) {
             echo "<script>alert('Comment submitted successfully');</script>";
-            header("Location: show.php");
+            header("Location: show.php?id=$shopId");
             exit;
         } else {
             echo "<script>alert('Failed to submit comment');</script>";
@@ -60,19 +58,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h3><?= $row['Name'] ?></h3><br>
             <p><?= $row['Description'] ?></p>
         </div>
-        <?php else: ?>
-        <p>No coffee shop found with the provided ID.</p>
         <?php endif; ?>
 
         <div class="comments">
             <h3>Comments</h3><br>
-            <form action="show.php" method="POST">
-                <input type="hidden" name="shop_id" value="<?= $shopId ?>">
+            <form action="show.php?id=<?= $shopId ?>" method="POST">
+                <input type="hidden" name="id" value="<?= $shopId ?>">
                 <div class="comment-container">
                     <textarea class="comment-textarea" name="comment" rows="2" cols="50" placeholder="Write your comment here"></textarea>
                     <button type="submit" value="submit" class="comment-button">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-up-circle" viewBox="0 0 16 15">
-                            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"/>
+                            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-7.5-.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"/>
                         </svg>
                     </button>
                 </div>

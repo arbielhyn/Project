@@ -1,6 +1,28 @@
 <?php
 session_start();
 require('connection.php');
+// Check if the search form is submitted
+if (isset($_GET['search'])) {
+    // Sanitize the search query to prevent SQL injection
+    $search = mysqli_real_escape_string($connection, $_GET['search']);
+
+    // Perform SQL query to search for pages containing the search keyword
+    $query = "SELECT * FROM cafe WHERE Name LIKE '%$search%'";
+    $result = mysqli_query($connection, $query);
+
+    // Display search results
+    if (mysqli_num_rows($result) > 0) {
+        echo "<h2>Search Results</h2>";
+        echo "<ul>";
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<li><a href='coffee.php?id=" . $row['coffee_id'] . "'>" . $row['Name'] . "</a></li>";
+            // You can display other properties of the page as well
+        }
+        echo "</ul>";
+    } else {
+        echo "No results found.";
+    }
+}
 ?>
 
 <header>
@@ -10,7 +32,7 @@ require('connection.php');
         </a>
     </div>
     <div class="search">
-        <form action="search.php" method="GET">
+        <form action="nav.php" method="GET">
             <input type="text" id="search" name="search" placeholder="Enter keyword...">
             <button type="submit">Search</button>
         </form>
