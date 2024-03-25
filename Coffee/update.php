@@ -2,9 +2,6 @@
 require('connection.php');
 require('authentication.php');
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 // Function to validate coffee shop details
 function isValidCoffeeShop($name, $description) {
     return strlen($name) >= 1 && strlen($description) >= 1;
@@ -45,11 +42,6 @@ if ($_POST && isset($_POST['Name']) && isset($_POST['Description']) && isset($_P
             $statement->bindValue(':Shop_id', $id, PDO::PARAM_INT);
             $statement->execute();
             $imageFilePath = $statement->fetchColumn();
-
-            // Delete the image file from the file system
-            if ($imageFilePath && file_exists($imageFilePath)) {
-                unlink($imageFilePath);
-            }
 
             // Update the 'Image' column in the database to remove the image reference
             $query = "UPDATE cafe SET Image = '' WHERE Shop_id = :Shop_id";
@@ -123,8 +115,10 @@ if ($_POST && isset($_POST['Name']) && isset($_POST['Description']) && isset($_P
             <label for="Description">Description</label>
             <textarea type="text" id="Description" name="Description" rows="5"><?= $shop['Description'] ?></textarea><br>
 
-            <input type="checkbox" id="removeImage" name="removeImage">
-            <label for="removeImage">Remove Image</label><br>
+            <?php if (!empty($shop['Image'])): ?>
+                <input type="checkbox" id="removeImage" name="removeImage">
+                <label for="removeImage">Remove Image</label><br>
+            <?php endif; ?>
             
             <button type="submit" value="Update">Update</button>
             <button type="submit" name="delete_shop" value="Delete" onclick="return confirm('Are you sure you want to delete this coffee shop?');">Delete</button>

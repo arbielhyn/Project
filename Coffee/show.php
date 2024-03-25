@@ -1,6 +1,6 @@
 <?php
 require('connection.php');
-
+session_start();
 if (isset($_GET['id'])) {
     $shopId = $_GET['id'];
     $query = "SELECT * FROM cafe WHERE Shop_id = :Shop_id";
@@ -12,25 +12,39 @@ if (isset($_GET['id'])) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Check if the comment field is not empty
-    if (!empty($_POST['comment'])) {
-        // Prepare and execute the SQL query to insert the comment into the database
-        $comment = $_POST['comment'];
-        $query = "INSERT INTO comments (comment) VALUES (:comment)";
-        $statement = $db->prepare($query);
-        $statement->bindValue(':comment', $comment);
-        
-        if ($statement->execute()) {
-            echo "<script>alert('Comment submitted successfully');</script>";
-            header("Location: show.php?id=$shopId");
-            exit;
+    // Check if the user is logged in
+    if(isset($_SESSION['user_id'])) {
+        // Check if the comment field is not empty
+        if (!empty($_POST['comment'])) {
+            // Get shop_id and user_id from the form or session, wherever they are available
+            $shopId = $_POST['id']; // Assuming you have this value in your form
+            $userId = $_SESSION['user_id']; // Get user ID from session
+
+            // Prepare and execute the SQL query to insert the comment into the database
+            $comment = $_POST['comment'];
+            $query = "INSERT INTO comments (comment, shop_id, user_id) VALUES (:comment, :shop_id, :user_id)";
+            $statement = $db->prepare($query);
+            $statement->bindValue(':comment', $comment);
+            $statement->bindValue(':shop_id', $shopId);
+            $statement->bindValue(':user_id', $userId);
+            
+            if ($statement->execute()) {
+                echo "<script>alert('Comment submitted successfully');</script>";
+                header("Location: show.php?id=$shopId");
+                exit;
+            } else {
+                echo "<script>alert('Failed to submit comment');</script>";
+            }
         } else {
-            echo "<script>alert('Failed to submit comment');</script>";
+            echo "<script>alert('Comment field is required');</script>";
         }
     } else {
-        echo "<script>alert('Comment field is required');</script>";
+        // Redirect the user to the login page if they are not logged in
+        header("Location: login.php");
+        exit;
     }
 }
+
 
 ?>
 <!DOCTYPE html>
@@ -54,8 +68,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="showcase">
     <?php if(isset($row)): ?>
         <div class="shopinfo">
-            <!-- Use PHP to dynamically set the image source -->
-            <img class="coffeeimg" src="uploads/<?= $row['Image'] ?>" style="width: 450px; height: auto; border-radius: 25px;">
+            <?php if (!empty($row['Image'])): ?>
+                <img class="coffeeimg" src="uploads/<?= $row['Image'] ?>" style="width: 450px; height: auto; border-radius: 25px;">
+            <?php endif; ?>
             <h3><?= $row['Name'] ?></h3><br>
             <p><?= $row['Description'] ?></p>
         </div>
@@ -63,6 +78,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <div class="comments">
             <h3>Comments</h3><br>
+            <!-- Fetch comments for this shop_id from the database -->
+            <?php
+            $query = "SELECT comments.*, user.username FROM comments INNER JOIN user ON comments.user_id = user.user_id WHERE comments.shop_id = :shop_id ORDER BY comments.created_at DESC";
+            $statement = $db->prepare($query);
+            $statement->bindValue(':shop_id', $shopId);
+            $statement->execute();
+            $comments = $statement->fetchAll();
+            ?>
+            <?php foreach ($comments as $comment): ?>
+                <p><strong><?= $comment['username'] ?>:</strong> <?= $comment['comment'] ?></p>
+            <?php endforeach; ?>
             <form action="show.php?id=<?= $shopId ?>" method="POST">
                 <input type="hidden" name="id" value="<?= $shopId ?>">
                 <div class="comment-container">

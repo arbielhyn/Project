@@ -24,6 +24,7 @@ function file_is_an_image($temporary_path, $new_path) {
     return $file_extension_is_valid && $mime_type_is_valid;
 }
 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($_POST['Name']) && !empty($_POST['Description'])) {
         $name = filter_input(INPUT_POST, 'Name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -37,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
             // Validate the uploaded image
             if (file_is_an_image($temporary_image_path, $new_image_path)) {
-                // Move the uploaded image to the uploads directory
+                // Move the resized image to the uploads directory
                 move_uploaded_file($temporary_image_path, $new_image_path);
             } else {
                 // Image upload failed validation
@@ -48,6 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $image_filename = null;
         }
 
+        
         // Insert coffee shop data into the database
         $query = "INSERT INTO cafe (name, description, image) VALUES (:Name, :Description, :Image)";
         $statement = $db->prepare($query);
