@@ -3,11 +3,14 @@
 require('connection.php');
 require('authentication.php');
 // Include necessary functions for file upload and image validation
-function file_upload_path($original_filename, $upload_subfolder_name = 'uploads') {
+function file_upload_path($original_filename, $upload_subfolder_name = 'photoholder') {
     $current_folder = dirname(__FILE__);
-    $path_segments = [$current_folder, $upload_subfolder_name, basename($original_filename)];
+    // Update the folder path to point to the "photoholder" directory
+    $path_segments = [$current_folder, '..', 'Coffee', $upload_subfolder_name, basename($original_filename)];
     return join(DIRECTORY_SEPARATOR, $path_segments);
 }
+
+
 
 function file_is_an_image($temporary_path, $new_path) {
     $allowed_mime_types = ['image/gif', 'image/jpeg', 'image/png', 'image/jpg'];

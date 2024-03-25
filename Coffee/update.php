@@ -50,7 +50,7 @@ if ($_POST && isset($_POST['Name']) && isset($_POST['Hours']) && isset($_POST['W
         $statement->execute();
 
         // Redirect after update.
-        header("Location: index.php?id={$id}");
+        header("Location: profile.php?id={$id}");
         exit;
     } else {
         $error_message = "Invalid coffee shop details. Please make sure all fields are filled out.";

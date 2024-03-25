@@ -1,6 +1,8 @@
 <?php
 require('connection.php');
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 if (isset($_GET['id'])) { // Change 'shop_id' to 'id'
     $shopId = $_GET['id']; // Change variable name from $postId to $shopId
     $query = "SELECT * FROM cafe WHERE Shop_id = :Shop_id"; // Change 'id' to 'Shop_id'
@@ -11,6 +13,26 @@ if (isset($_GET['id'])) { // Change 'shop_id' to 'id'
     $row = $statement->fetch();
 }
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Check if the comment field is not empty
+    if (!empty($_POST['comment'])) {
+        // Prepare and execute the SQL query to insert the comment into the database
+        $comment = $_POST['comment'];
+        $query = "INSERT INTO comments (comment) VALUES (:comment)";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':comment', $comment);
+        
+        if ($statement->execute()) {
+            echo "<script>alert('Comment submitted successfully');</script>";
+            header("Location: show.php");
+            exit;
+        } else {
+            echo "<script>alert('Failed to submit comment');</script>";
+        }
+    } else {
+        echo "<script>alert('Comment field is required');</script>";
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,9 +53,10 @@ if (isset($_GET['id'])) { // Change 'shop_id' to 'id'
     </a>
 
     <div class="showcase">
-        <?php if(isset($row)): ?>
+    <?php if(isset($row)): ?>
         <div class="shopinfo">
-        <img class="coffeeimg" src="images/placeholder.jpeg" style="width: 450px; height: auto; border-radius: 25px;">
+            <!-- Use PHP to dynamically set the image source -->
+            <img class="coffeeimg" src="uploads/<?= $row['Image'] ?>" style="width: 450px; height: auto; border-radius: 25px;">
             <h3><?= $row['Name'] ?></h3><br>
             <p><?= $row['Description'] ?></p>
         </div>
@@ -43,11 +66,11 @@ if (isset($_GET['id'])) { // Change 'shop_id' to 'id'
 
         <div class="comments">
             <h3>Comments</h3><br>
-            <form action="submit_comment.php" method="POST">
+            <form action="show.php" method="POST">
                 <input type="hidden" name="shop_id" value="<?= $shopId ?>">
                 <div class="comment-container">
                     <textarea class="comment-textarea" name="comment" rows="2" cols="50" placeholder="Write your comment here"></textarea>
-                    <button type="submit" class="comment-button">
+                    <button type="submit" value="submit" class="comment-button">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-up-circle" viewBox="0 0 16 15">
                             <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"/>
                         </svg>
