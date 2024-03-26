@@ -15,6 +15,14 @@ $statement_category->execute();
 $query_user = "SELECT * FROM user";
 $statement_user = $db->prepare($query_user);
 $statement_user->execute();
+
+// Fourth query to select data from the "comment" table
+$query_comment = "SELECT comments.*, cafe.Name AS shop_name 
+                  FROM comments 
+                  INNER JOIN cafe ON comments.shop_id = cafe.Shop_id";
+$statement_comment = $db->prepare($query_comment);
+$statement_comment->execute();
+
 ?>
 <!DOCTYPE html> 
 <html lang="en">
@@ -45,6 +53,7 @@ $statement_user->execute();
             <button class="tablinks" onclick="toggleTable('cafeTable')">Show Cafe</button>
             <button class="tablinks" onclick="toggleTable('categoryTable')">Show Category</button>
             <button class="tablinks" onclick="toggleTable('userTable')">Manage Users</button>
+            <button class="tablinks" onclick="toggleTable('commentTable')">Manage Comments</button>
         </div>
 
         <div>
@@ -90,6 +99,9 @@ $statement_user->execute();
                 <thead>
                     <tr>
                         <th>Users</th>
+                        <th colspan="2"> <!-- Span across two columns -->
+                            <a href="adduser.php" class="add-button">+ Add</a>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -101,6 +113,30 @@ $statement_user->execute();
                     <?php endwhile; ?>
                 </tbody>
             </table>
+
+            <table class="info" id="commentTable">
+            <thead>
+                <tr>
+                    <th><h3>Name</h3></th>
+                    <th><h3>Comment</h3></th>
+                    <th><h3>Delete</h3></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while($row = $statement_comment->fetch(PDO::FETCH_ASSOC)): ?>
+                    <tr class="edit-wrapper">
+                        <td class="name-cell"><?= $row['shop_name'] ?></td>
+                        <td class="edit-cell"><?= $row['comment'] ?></td>
+                        <td class="name-cell">
+                            <form action="editcomment.php" method="POST">
+                                <input type="hidden" name="comment_id" value="<?= $row['comment_id'] ?>">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
         </div>
     </section>
     <script src="functions.js"></script>

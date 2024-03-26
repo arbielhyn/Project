@@ -354,6 +354,22 @@ a.back-button {
     border: none;
     cursor: pointer;
 }
+
+.comment-container {
+    display: flex;
+    align-items: center;
+}
+
+.comment-container p {
+    margin-right: 10px; /* Adjust the spacing between the comment text and the delete button */
+}
+
+.delete-button {
+    background-color: transparent;
+    border: none;
+    color: gray;
+    cursor: pointer; /* Add a cursor pointer to indicate the button is clickable */
+}
 /* login */
 .loginwrapper {
     width: 1000px;

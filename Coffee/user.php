@@ -25,20 +25,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["delete_user"])) {
     exit;
 }
 
-// UPDATE coffee user if Username, Password, and id are present in POST.
-if ($_POST && isset($_POST['Username']) && isset($_POST['Password']) && isset($_POST['id'])) {
+// UPDATE coffee user if Username, Password, id, and UserType are present in POST.
+if ($_POST && isset($_POST['Username']) && isset($_POST['Password']) && isset($_POST['id']) && isset($_POST['UserType'])) {
     // Sanitize user input to escape HTML entities and filter out dangerous characters.
     $username  = filter_input(INPUT_POST, 'Username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $password = filter_input(INPUT_POST, 'Password', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $userType = filter_input(INPUT_POST, 'UserType', FILTER_SANITIZE_STRING);
     $id      = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
 
     // Validate coffee user details
     if (isValidCoffeeuser($username, $password)) {
         // Build the parameterized SQL query and bind to the above sanitized values.
-        $query     = "UPDATE user SET Username = :Username, Password = :Password WHERE user_id = :user_id";
+        $query = "UPDATE user SET Username = :Username, Password = :Password, user_type = :UserType WHERE user_id = :user_id";
         $statement = $db->prepare($query);
         $statement->bindValue(':Username', $username);
         $statement->bindValue(':Password', $password);
+        $statement->bindValue(':UserType', $userType);
         $statement->bindValue(':user_id', $id, PDO::PARAM_INT);
 
         // Execute the UPDATE.
@@ -98,6 +100,12 @@ if ($_POST && isset($_POST['Username']) && isset($_POST['Password']) && isset($_
             
             <label for="Password">Password</label>
             <input type="text" id="Password" name="Password" value="<?= $user['Password'] ?>"><br>
+
+            <label for="UserType">User Type</label>
+            <select id="UserType" name="UserType">
+                <option value="regular" <?= ($user['user_type'] === 'regular') ? 'selected' : '' ?>>Regular</option>
+                <option value="admin" <?= ($user['user_type'] === 'admin') ? 'selected' : '' ?>>Admin</option>
+            </select><br>
             
             <button type="submit" value="Update">Update</button>
             <button type="submit" name="delete_user" value="Delete" onclick="return confirm('Are you sure you want to delete this user?');">Delete</button>
