@@ -1,6 +1,6 @@
 <?php
 session_start();
-require('connection.php');
+include ('connection.php');
 
 $login_error = ""; // Initialize login error message
 
@@ -20,13 +20,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
         // Authentication successful, set session variables
         $_SESSION['user_id'] = $user['user_id']; // Use lowercase user_id consistent with the database
         $_SESSION['username'] = $user['Username']; // Capitalize 'Username' to match database column name
+        $_SESSION['user_type'] = $user['user_type']; // Capitalize 'Username' to match database column name
 
         // Set login success session variable
         $_SESSION['login_success'] = true;
+         
 
+        if (strtolower($user['user_type']) == 'admin') {header('Location: index.php');}
+        else {header('Location: login.php'); exit;}
         // Redirect to index.php or any other authenticated page
-        header("Location: login.php");
-        exit();
     } else {
         $login_error = "Invalid username or password.";
     }

@@ -26,35 +26,40 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["delete_shop"])) {
 }
 
 // UPDATE coffee shop if Name, Description, and id are present in POST.
-if ($_POST && isset($_POST['Name']) && isset($_POST['Description']) && isset($_POST['id'])) {
+if ($_POST && isset($_POST['Name']) && isset($_POST['Description']) && isset($_POST['Category']) && isset($_POST['id'])) {
     // Sanitize user input to escape HTML entities and filter out dangerous characters.
     $name  = filter_input(INPUT_POST, 'Name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $description = filter_input(INPUT_POST, 'Description', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $category_id = filter_input(INPUT_POST, 'Category', FILTER_SANITIZE_NUMBER_INT);
     $id      = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
 
     // Validate coffee shop details
     if (isValidCoffeeShop($name, $description)) {
-        // Remove image if requested
-        if (isset($_POST["removeImage"])) {
-            // Retrieve the image file path from the database
-            $query = "SELECT Image FROM cafe WHERE Shop_id = :Shop_id";
-            $statement = $db->prepare($query);
-            $statement->bindValue(':Shop_id', $id, PDO::PARAM_INT);
-            $statement->execute();
-            $imageFilePath = $statement->fetchColumn();
+        // Check if an image file was uploaded
+        if (!empty($_FILES['image']['name'])) {
+            $image_filename = $_FILES['image']['name']; // Get the image filename
+            $temporary_image_path = $_FILES['image']['tmp_name'];
+            $new_image_path = 'uploads/' . $image_filename; // Destination path for the image
 
-            // Update the 'Image' column in the database to remove the image reference
-            $query = "UPDATE cafe SET Image = '' WHERE Shop_id = :Shop_id";
-            $statement = $db->prepare($query);
-            $statement->bindValue(':Shop_id', $id, PDO::PARAM_INT);
-            $statement->execute();
+            // Move the uploaded image to the destination directory
+            if (move_uploaded_file($temporary_image_path, $new_image_path)) {
+                // Update the 'Image' column in the database with the new image filename
+                $query = "UPDATE cafe SET Image = :Image WHERE Shop_id = :Shop_id";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':Image', $image_filename);
+                $statement->bindValue(':Shop_id', $id, PDO::PARAM_INT);
+                $statement->execute();
+            } else {
+                $error_message = "Failed to upload image. Please try again.";
+            }
         }
 
         // Build the parameterized SQL query and bind to the above sanitized values.
-        $query     = "UPDATE cafe SET Name = :Name, Description = :Description WHERE Shop_id = :Shop_id";
+        $query     = "UPDATE cafe SET Name = :Name, Description = :Description, category_id = :category_id WHERE Shop_id = :Shop_id";
         $statement = $db->prepare($query);
         $statement->bindValue(':Name', $name);
         $statement->bindValue(':Description', $description);
+        $statement->bindValue(':category_id', $category_id);
         $statement->bindValue(':Shop_id', $id, PDO::PARAM_INT);
 
         // Execute the UPDATE.
@@ -78,6 +83,11 @@ if ($_POST && isset($_POST['Name']) && isset($_POST['Description']) && isset($_P
     // Execute the SELECT and fetch the single row returned.
     $statement->execute();
     $shop = $statement->fetch();
+
+    // Fetch categories from the database
+    $queryCategories = "SELECT * FROM category";
+    $categoriesStatement = $db->query($queryCategories);
+    $categories = $categoriesStatement->fetchAll(PDO::FETCH_ASSOC);
 } else {
     $id = false; // False if we are not UPDATING or SELECTING.
 }
@@ -106,7 +116,7 @@ if ($_POST && isset($_POST['Name']) && isset($_POST['Description']) && isset($_P
         <?php if ($error_message): ?>
             <p style="color: red;"><?= $error_message ?></p>
         <?php endif ?>
-        <form class="coffeeShopForm" method="post">
+        <form class="coffeeShopForm" method="post" enctype="multipart/form-data">
             <input type="hidden" name="id" value="<?= $shop['Shop_id'] ?>"><br>
             
             <label for="Name">Name</label>
@@ -114,6 +124,20 @@ if ($_POST && isset($_POST['Name']) && isset($_POST['Description']) && isset($_P
             
             <label for="Description">Description</label>
             <textarea type="text" id="Description" name="Description" rows="5"><?= $shop['Description'] ?></textarea><br>
+
+
+            <label for="Categories">Category</label>
+            <select id="Categories" name="Category">
+                <option value="">Select Category</option>
+                <?php foreach ($categories as $category): ?>
+                    <option value="<?= $category['type_id'] ?>">
+                        <?= $category['type'] ?>
+                    </option>
+                <?php endforeach; ?>
+            </select><br>
+
+            <label for="image">Image:</label>
+            <input type="file" id="image" name="image"><br>
 
             <?php if (!empty($shop['Image'])): ?>
                 <input type="checkbox" id="removeImage" name="removeImage">

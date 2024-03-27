@@ -52,8 +52,10 @@ $statement_comment->execute();
         <div class="tab">
             <button class="tablinks" onclick="toggleTable('cafeTable')">Show Cafe</button>
             <button class="tablinks" onclick="toggleTable('categoryTable')">Show Category</button>
-            <button class="tablinks" onclick="toggleTable('userTable')">Manage Users</button>
-            <button class="tablinks" onclick="toggleTable('commentTable')">Manage Comments</button>
+            <?php if (isset($_SESSION['user_type']) && $_SESSION ['user_type'] === 'admin'): ?> <!-- Check if the user is an admin -->
+                <button class="tablinks" onclick="toggleTable('userTable')">Manage Users</button>
+                <button class="tablinks" onclick="toggleTable('commentTable')">Manage Comments</button>
+            <?php endif ?>
         </div>
 
         <div>

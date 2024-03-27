@@ -10,7 +10,15 @@ if (isset($_GET['id'])) {
 
     $row = $statement->fetch();
 }
+if (isset($_GET['id'])) {
+    $shopId = $_GET['id'];
+    $query = "SELECT cafe.*, category.type FROM cafe LEFT JOIN category ON cafe.category_id = category.type_id WHERE cafe.Shop_id = :Shop_id";
+    $statement = $db->prepare($query);
+    $statement->bindParam(':Shop_id', $shopId);
+    $statement->execute();
 
+    $row = $statement->fetch();
+}
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check if the user is logged in
     if(isset($_SESSION['user_id'])) {
@@ -84,6 +92,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_comment'])) {
                 <img class="coffeeimg" src="uploads/<?= $row['Image'] ?>" style="width: 450px; height: auto; border-radius: 25px;">
             <?php endif; ?>
             <h3><?= $row['Name'] ?></h3><br>
+            <?php if (!empty($row['type'])): ?>
+                <p><strong>Category:</strong> <?= $row['type'] ?></p>
+            <?php endif; ?>
             <p><?= $row['Description'] ?></p>
         </div>
         <?php endif; ?>
