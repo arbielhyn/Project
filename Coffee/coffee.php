@@ -24,6 +24,10 @@ function file_is_an_image($temporary_path, $new_path) {
     return $file_extension_is_valid && $mime_type_is_valid;
 }
 
+// Fetch categories from the database
+$queryCategories = "SELECT * FROM category";
+$categoriesStatement = $db->query($queryCategories);
+$categories = $categoriesStatement->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($_POST['Name']) && !empty($_POST['Description'])) {
@@ -93,6 +97,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <label for="Description">Description:</label><br>
         <textarea id="Description" name="Description" rows="4"></textarea><br>
+
+        <label for="Categories">Category</label>
+            <select id="Categories" name="Category">
+                <option value="">Select Category</option>
+                <?php foreach ($categories as $category): ?>
+                    <option value="<?= $category['type_id'] ?>">
+                        <?= $category['type'] ?>
+                    </option>
+                <?php endforeach; ?>
+            </select><br>
 
         <label for="image">Image:</label>
         <input type="file" id="image" name="image"><br>
