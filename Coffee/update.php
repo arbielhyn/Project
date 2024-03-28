@@ -54,7 +54,7 @@ if ($_POST && isset($_POST['Name']) && isset($_POST['Description']) && isset($_P
 
                 // Resize and crop the image
                 $image = new \Gumlet\ImageResize($new_image_path);
-                $image->crop(150, 150); // Crop the image to 250x250 pixels
+                $image->crop(500, 500); // Crop the image to 250x250 pixels
                 $image->save($new_image_path);
             } else {
                 echo "Failed to upload image. Please try again.";
