@@ -2,6 +2,8 @@
 
 require('connection.php');
 require('authentication.php');
+require('/Applications/XAMPP/xamppfiles/htdocs/wd2/Project(Github)/Coffee/php-image-resize-master/lib/ImageResize.php');
+require('/Applications/XAMPP/xamppfiles/htdocs/wd2/Project(Github)/Coffee/php-image-resize-master/lib/ImageResizeException.php');
 
 // Include necessary functions for file upload and image validation
 function file_upload_path($original_filename, $upload_subfolder_name = 'uploads') {
@@ -42,8 +44,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
             // Validate the uploaded image
             if (file_is_an_image($temporary_image_path, $new_image_path)) {
-                // Move the resized image to the uploads directory
+                // Move the uploaded image to the final destination
                 move_uploaded_file($temporary_image_path, $new_image_path);
+                
+                // Check if the file extension is not 'pdf'
+                $file_extension = pathinfo($new_image_path, PATHINFO_EXTENSION);
+                if ($file_extension !== 'pdf') {
+                // Resize the image to fit within 250x250 dimensions
+                $image = new \Gumlet\ImageResize($new_image_path);
+                $image->crop(150, 150);
+
+                // Set JPEG quality to 90
+                $image->quality_jpg = 90;
+
+                // Save the image
+                $image->save($new_image_path);
+                } else {
+                    // Image upload failed validation
+                    echo "Failed to upload image. PDF files are not allowed.";
+                }
             } else {
                 // Image upload failed validation
                 echo "Failed to upload image. Please ensure you are uploading a valid image file (JPEG, PNG, or GIF).";
@@ -52,7 +71,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // If no image was uploaded, set the filename to null
             $image_filename = null;
         }
-
         
         // Insert coffee shop data into the database
         $query = "INSERT INTO cafe (name, description, image) VALUES (:Name, :Description, :Image)";

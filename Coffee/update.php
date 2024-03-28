@@ -1,9 +1,8 @@
 <?php
 require('connection.php');
 require('authentication.php');
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+require('/Applications/XAMPP/xamppfiles/htdocs/wd2/Project(Github)/Coffee/php-image-resize-master/lib/ImageResize.php');
+require('/Applications/XAMPP/xamppfiles/htdocs/wd2/Project(Github)/Coffee/php-image-resize-master/lib/ImageResizeException.php');
 
 // Function to validate coffee shop details
 function isValidCoffeeShop($name, $description) {
@@ -52,6 +51,11 @@ if ($_POST && isset($_POST['Name']) && isset($_POST['Description']) && isset($_P
                 $statement->bindValue(':Image', $image_filename);
                 $statement->bindValue(':Shop_id', $id, PDO::PARAM_INT);
                 $statement->execute();
+
+                // Resize and crop the image
+                $image = new \Gumlet\ImageResize($new_image_path);
+                $image->crop(150, 150); // Crop the image to 250x250 pixels
+                $image->save($new_image_path);
             } else {
                 echo "Failed to upload image. Please try again.";
             }
