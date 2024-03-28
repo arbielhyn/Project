@@ -1,6 +1,9 @@
 <?php
 require('connection.php');
 require('authentication.php');
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 // Function to validate coffee shop details
 function isValidCoffeeShop($name, $description) {
@@ -30,7 +33,7 @@ if ($_POST && isset($_POST['Name']) && isset($_POST['Description']) && isset($_P
     // Sanitize user input to escape HTML entities and filter out dangerous characters.
     $name  = filter_input(INPUT_POST, 'Name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $description = filter_input(INPUT_POST, 'Description', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $category_id = filter_input(INPUT_POST, 'Category', FILTER_SANITIZE_NUMBER_INT);
+    $category_id = isset($_POST['Category']) && $_POST['Category'] !== '' ? filter_input(INPUT_POST, 'Category', FILTER_SANITIZE_NUMBER_INT) : null;
     $id      = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
 
     // Validate coffee shop details
@@ -50,7 +53,7 @@ if ($_POST && isset($_POST['Name']) && isset($_POST['Description']) && isset($_P
                 $statement->bindValue(':Shop_id', $id, PDO::PARAM_INT);
                 $statement->execute();
             } else {
-                $error_message = "Failed to upload image. Please try again.";
+                echo "Failed to upload image. Please try again.";
             }
         }
 
@@ -59,7 +62,7 @@ if ($_POST && isset($_POST['Name']) && isset($_POST['Description']) && isset($_P
         $statement = $db->prepare($query);
         $statement->bindValue(':Name', $name);
         $statement->bindValue(':Description', $description);
-        $statement->bindValue(':category_id', $category_id);
+        $statement->bindValue(':category_id', $category_id, PDO::PARAM_INT);
         $statement->bindValue(':Shop_id', $id, PDO::PARAM_INT);
 
         // Execute the UPDATE.
@@ -69,7 +72,7 @@ if ($_POST && isset($_POST['Name']) && isset($_POST['Description']) && isset($_P
         header("Location: profile.php?id={$id}");
         exit;
     } else {
-        $error_message = "Invalid coffee shop details. Please make sure all fields are filled out.";
+        echo "Invalid coffee shop details. Please make sure all fields are filled out.";
     }
 } elseif (isset($_GET['id'])) { // Retrieve coffee shop to be edited if id GET parameter is in URL.
     // Sanitize the id.
@@ -89,9 +92,14 @@ if ($_POST && isset($_POST['Name']) && isset($_POST['Description']) && isset($_P
     $categoriesStatement = $db->query($queryCategories);
     $categories = $categoriesStatement->fetchAll(PDO::FETCH_ASSOC);
 } else {
-    $id = false; // False if we are not UPDATING or SELECTING.
+    // Set $id to a default value or handle the case where it's not set
+    $id = ''; // Default value, you can change this as needed
+    // Redirect to an appropriate page or handle the error
+    header("Location: index.php");
+    exit;
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
