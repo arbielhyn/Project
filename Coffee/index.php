@@ -2,7 +2,15 @@
 require('connection.php');
 
 // Fetch categories
-$query = "SELECT * FROM category";
+$queryCategories = "SELECT * FROM category";
+$statementCategories = $db->prepare($queryCategories);
+$statementCategories->execute(); 
+
+// Fetch cafes along with their associated categories
+$query = "SELECT cafe.*, category.type 
+          FROM cafe 
+          LEFT JOIN category ON cafe.category_id = category.type_id 
+          ORDER BY category.type";
 $statement = $db->prepare($query);
 $statement->execute(); 
 ?>
@@ -20,8 +28,8 @@ $statement->execute();
     <main>
         <!-- Display categories as buttons -->
         <section class="category-buttons">
-            <button class="category-button-all"><a href="index.php">All</a></button>
-            <?php while($category = $statement->fetch()): ?>
+            <button class="category-button-all" onclick="window.location.href='index.php';">All</button>
+            <?php while($category = $statementCategories->fetch()): ?>
                 <button class="category-button" data-category="<?= $category['type_id'] ?>">
                     <?= $category['type'] ?>
                 </button>
@@ -30,15 +38,6 @@ $statement->execute();
         
         <section class="posts">
             <!-- Display coffee shop listings dynamically from the database -->
-            <?php
-            // Fetch cafes along with their associated categories
-            $query = "SELECT cafe.*, category.type 
-                      FROM cafe 
-                      LEFT JOIN category ON cafe.category_id = category.type_id 
-                      ORDER BY category.type";
-            $statement = $db->prepare($query);
-            $statement->execute(); 
-            ?>
             <?php while($row = $statement->fetch()): ?>
                 <div class="coffee-shop-card" data-category="<?= $row['category_id'] ?>">
                     <div class="coffee-shop">

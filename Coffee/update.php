@@ -112,6 +112,11 @@ if ($_POST && isset($_POST['Name']) && isset($_POST['Description']) && isset($_P
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="pretty.css">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Summernote JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <title>Edit Coffee Shop</title>
 </head>
 <body>
@@ -135,7 +140,7 @@ if ($_POST && isset($_POST['Name']) && isset($_POST['Description']) && isset($_P
             <input type="text" id="Name" name="Name" value="<?= $shop['Name'] ?>"><br>
             
             <label for="Description">Description</label>
-            <textarea type="text" id="Description" name="Description" rows="5"><?= $shop['Description'] ?></textarea><br>
+            <textarea id="Description" name="Description" rows="5"><?= $shop['Description'] ?></textarea><br>
 
 
             <label for="Categories">Category</label>
@@ -161,5 +166,26 @@ if ($_POST && isset($_POST['Name']) && isset($_POST['Description']) && isset($_P
         </form>
     <?php endif ?>
     </div>
+        <!-- Summernote Initialization Script -->
+        <script>
+        $(document).ready(function() {
+            $('#Description').summernote({
+                placeholder: 'Enter description here...',
+                tabsize: 2,
+                height: 120,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ]
+            });
+        });
+
+        $('#summernote').summernote();
+    </script>
 </body>
 </html>
