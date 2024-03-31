@@ -11,8 +11,7 @@ require('connection.php');
     </div>
     <div class="search">
         <form action="search.php" method="GET">
-            <input type="text" id="search" name="search" placeholder="Enter keyword...">
-            <button type="submit">Search</button>
+            <input type="text" id="search" name="search" placeholder="Search">
         </form>
     </div>
     <div class="nav-container">

@@ -89,13 +89,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_comment'])) {
     <?php if(isset($row)): ?>
         <div class="shopinfo">
             <?php if (!empty($row['Image'])): ?>
-                <img class="coffeeimg" src="uploads/<?= $row['Image'] ?>" style="width: 450px; height: auto; border-radius: 25px;">
+                <img class="coffeeimg" src="uploads/<?= $row['Image'] ?>" style="width: 450px; height: auto; border-radius: 20px;">
             <?php endif; ?>
-            <h3><?= $row['Name'] ?></h3><br>
-            <?php if (!empty($row['type'])): ?>
-                <p><strong>Category:</strong> <?= $row['type'] ?></p>
-            <?php endif; ?>
-            <p><?= $row['Description'] ?></p>
+            <h3 id="title"><?= $row['Name'] ?></h3>
+                <?php if (!empty($row['type'])): ?>
+                    <i style="display: inline;"><?= $row['type'] ?></i>
+                <?php endif; ?>
+                <br></br>
+            <p id="description"><?= $row['Description'] ?></p>
         </div>
         <?php endif; ?>
 

@@ -28,7 +28,7 @@ $statement->execute();
     <main>
         <!-- Display categories as buttons -->
         <section class="category-buttons">
-            <button class="category-button-all" onclick="window.location.href='index.php';">All</button>
+            <button class="category-button" onclick="window.location.href='index.php';">All</button>
             <?php while($category = $statementCategories->fetch()): ?>
                 <button class="category-button" data-category="<?= $category['type_id'] ?>">
                     <?= $category['type'] ?>
@@ -39,11 +39,11 @@ $statement->execute();
         <section class="posts">
             <!-- Display coffee shop listings dynamically from the database -->
             <?php while($row = $statement->fetch()): ?>
-                <div class="coffee-shop-card" data-category="<?= $row['category_id'] ?>">
+                <a href="show.php?id=<?= $row['Shop_id']?>" class="coffee-shop-card" data-category="<?= $row['category_id'] ?>">
                     <div class="coffee-shop">
-                        <h3><a href="show.php?id=<?= $row['Shop_id']?>"><?= $row['Name'] ?></a></h3>
+                        <h3><?= $row['Name'] ?></h3>
                     </div>
-                </div>
+                </a>
             <?php endwhile; ?>
         </section>
     </main>

@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($file_extension !== 'pdf') {
                 // Resize the image to fit within 250x250 dimensions
                 $image = new \Gumlet\ImageResize($new_image_path);
-                $image->crop(500, 500);
+                $image->crop(550, 550);
 
                 // Set JPEG quality to 90
                 $image->quality_jpg = 90;

@@ -1,436 +1,475 @@
 /* Reset default browser styles */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #edeae4;
-    padding-top: 140px; 
+  font-family: Arial, sans-serif;
+  background-color: #edeae4;
+  padding-top: 140px;
 }
+
 header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background-color: #edeae4;
-    color: #000000;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 1000;
-    border-bottom: 1px solid #ccc; /* Add a 1px solid border bottom with light gray color */
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #edeae4;
+  color: #000000;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
 }
 
 .logo {
-    margin-right: auto; /* Pushes the logo to the left */
+  margin-right: auto; /* Pushes the logo to the left */
 }
 
 .nav-container {
-    margin-left: auto;
-    margin-top: 0; /* Adjust margin-top as needed */
+  margin-left: auto;
+  margin-top: 0; /* Adjust margin-top as needed */
 }
 
 nav ul {
-    list-style: none;
-    display: flex; /* Change to flex to enable sliding effect */
-    justify-content: center; 
-    margin: 0; /* Remove default margin */
-    padding: 0; /* Remove default padding */
+  list-style: none;
+  display: flex; /* Change to flex to enable sliding effect */
+  justify-content: center;
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
 }
 
 nav ul li {
-    margin-right: 20px;
+  margin-right: 20px;
 }
 
 nav ul li a {
-    color: #282828; /* White text color */
-    text-decoration: none;
-    position: relative; /* Relative positioning for sliding effect */
+  color: #282828; /* White text color */
+  text-decoration: none;
+  position: relative; /* Relative positioning for sliding effect */
 }
 
 nav ul li a::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background-color: #ffffff; /* White underline color */
-    transition: width 0.3s ease; /* Smooth transition for sliding effect */
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #ffffff; /* White underline color */
+  transition: width 0.3s ease; /* Smooth transition for sliding effect */
 }
 
 nav ul li a:hover::before {
-    width: 100%; /* Slide the line to 100% width on hover */
+  width: 100%; /* Slide the line to 100% width on hover */
 }
 
 .search {
-    margin-left: auto;
-    margin-right: 20px; /* Adjust margin-right as needed */
+  margin-left: auto;
+  margin-right: 20px; /* Adjust margin-right as needed */
 }
 
 .search form {
-    display: flex;
-    align-items: center;
-}
-
-.search input[type="text"],
-.search button {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 25px;
-}
-
-.search button {
-    background-color: #A99A86;
-    color: #fff;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 .search input[type="text"] {
-    width: 500px; /* Adjust width as needed */
-    margin-right: 10px; /* Add spacing between input and button */
+  padding: 10px;
+  background-color: #666;
+  font-size: 16px;
+  border-radius: 25px;
+  width: 800px; /* Adjust width as needed */
+  margin-top: 10px;
 }
+
+.search button {
+  background-color: #a99a86;
+  color: #fff;
+  cursor: pointer;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 50px;
+}
+
 /* index styles */
 main {
-    padding: 20px;
+  padding: 20px;
+  margin-top: -35px;
+}
+.category-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5px;
 }
 
-section {
-    margin-bottom: 20px;
+.category-button {
+  color: #fff;
+  border: 1px solid #a99a86;
+  padding: 10px 20px;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
+.category-button:hover {
+  background-color: #856d52;
+}
 /* post listing */
 .posts {
-    display: flex;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
+}
+.coffee-shop-card {
+  width: 25%;
+  padding: 7px;
+  cursor: pointer; /* Add cursor pointer */
+  transition: transform 0.3s; /* Add transition */
+  text-decoration: none; /* Remove underline from the link */
 }
 
-.coffee-shop-card {
-    width: 25%;
-    padding: 10px;
-    cursor: pointer; /* Add cursor pointer */
+.coffee-shop-card:hover {
+  transform: scale(1.05); /* Increase size on hover */
 }
 
 .coffee-shop {
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 15px;
-    padding: 15px;
-    width: calc(100% - 20px); 
-    height: 200px; 
-    margin: 0 10px 20px 10px; 
-    transition: height 0.3s;
-    display: flex;
-    flex-direction: column;
-    justify-content: center; 
-    align-items: center;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  padding: 20px;
+  width: calc(100% - 20px);
+  height: 200px;
+  margin: 10px 10px 10px 10px;
+  transition: height 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .coffee-shop h3 {
-    color: #333;
-    margin-bottom: 10px;
-    text-align: center; 
-    margin: 0;
-    width: 100%; 
+  color: #968876;
+  margin-bottom: 10px;
+  text-align: center;
+  margin: 0;
+  width: 100%;
 }
 
 .coffee-shop p {
-    color: #666;
-    margin-bottom: 5px;
+  color: #666;
+  margin-bottom: 5px;
 }
 
 .coffee-shop p:not(:first-child) {
-    display: none;
+  display: none;
 }
 
 /* Display additional information when coffee shop is expanded */
-
 a {
-    color: #856d52;
-    text-decoration: none;
-    transition: color 0.1s ease;
+  color: #856d52;
+  text-decoration: none;
+  transition: color 0.1s ease;
 }
 
 a:hover {
-    color: #a8a298;
+  color: #a8a298;
 }
 
 /* profile page */
 .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 h1 {
-    text-align: center;
-    margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .coffeeShopForm {
-    background-color: #fefdfd;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fefdfd;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .form-group {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 label {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 form input[type="text"],
 form input[type="password"],
+form input[type="file"],
+form input[type="checkbox"],
+form select,
 textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 10px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
 }
 
 button {
-    background-color: #A99A86;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+  background-color: #a99a86;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 button:hover {
-    background-color: #A99A86;
-}
-
-footer {
-    background-color: #edeae4;
-    color: #000000;
-    padding: 20px;
-    text-align: center;
+  background-color: #a99a86;
 }
 
 /* Profile style Container styling */
 .manage {
-    margin-top: 20px;
-    width: 1000px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 40px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.info {
+  display: none;
+  width: 95%; /* Adjust the width as needed */
+  margin: 0 auto; /* Center the tables horizontally */
 }
 
 .info th,
 .info td {
-    padding: 12px;
-    text-align: left;
+  padding: 12px;
+  text-align: left;
 }
 
 .info th {
-    border-bottom: 1px solid #ccc; /* Add a solid black border bottom */
-}
-.info th:first-child {
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-}
-
-.info th:last-child {
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
+  border-bottom: 1px solid #ccc; /* Add a solid black border bottom */
 }
 
 .info td {
-    padding: 12px;
-    text-align: left;
-    position: relative;
+  padding: 12px;
+  text-align: left;
+  position: relative;
 }
 
 .info td:not(:last-child):after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 940px;
-    height: 1px;
-    background-color: #ddd;
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 111%;
+  height: 1px;
+  background-color: #ddd;
 }
 
 .edit-cell {
-    width: 850px; /* Adjust the width of the edit cell as needed */
+  width: 850px; /* Adjust the width of the edit cell as needed */
 }
 
 .name-cell {
-    width: calc(100% - 100px); /* Adjust the width of the name cell based on the edit cell width */
+  width: calc(
+    100% - 100px
+  ); /* Adjust the width of the name cell based on the edit cell width */
 }
 /* Tab styling */
 .tab {
-    overflow: hidden;
-    background-color: #fff; /* Background color for the tab container */
-    color: #fff; /* Text color for the tabs */
-    display: flex;
-    justify-content:left;
-    align-items: center;
-    border-radius: 10px; /* Added border radius */
+  overflow: hidden;
+  background-color: #fff; /* Background color for the tab container */
+  color: #fff; /* Text color for the tabs */
+  display: flex;
+  justify-content: left;
+  align-items: center;
 }
 
 .tab button {
-    background-color: transparent;
-    color: #A99A86;
-    border: none;
-    border-radius: 35px;
-    outline: none;
-    cursor: pointer;
-    padding: 14px 16px;
-    margin-right: 5px;
-    transition: background-color 0.3s; /* Transition for smoother hover effect */
+  background-color: transparent;
+  color: #a99a86;
+  border: none;
+  border-radius: 25px;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  margin-right: 5px;
+  margin-bottom: 20px;
+  transition: background-color 0.3s; /* Transition for smoother hover effect */
 }
 
+.tablinks {
+  font-size: 12px;
+  font-weight: 500;
+}
 .tab button:hover {
-    background-color: #856d52; /* Background color on hover */
-    color: #fff;
+  background-color: #dacbbb; /* Background color on hover */
+  color: #fff;
 }
 
 .tab button.active {
-    background-color: #856d52; /* Active tab background color */
-    border-radius: 10px; /* Added border radius */
+  background-color: #b6a189;
+  color: #fff; /* Active tab background color */
+  border-radius: 25px; /* Added border radius */
+}
+
+.tab button.active:hover {
+  background-color: #856d52;
+  color: #fff;
 }
 
 .tabcontent.active {
-    display: block;
+  display: block;
 }
 
 /* show styling */
 .showcase {
-    width: 1000px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 40px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: flex;
+  width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
 }
 
 .shopinfo {
-    flex: 1; 
-    padding-right: 10px; 
-    border-right: 1px solid #ccc;
+  flex: 1;
+  padding-right: 25px;
+  border-right: 1px solid #ccc;
 }
 
+#title {
+  margin-top: 10px;
+  font-size: 30px;
+}
+
+#description {
+  margin-bottom: 25px;
+}
 a.back-button {
-    margin-left: 20px; /* Add margin to separate it from the showcase */
-    padding: 20px;
+  margin-left: 20px;
+  padding: 20px;
 }
 
 .comments {
-    padding-left: 10px;
-    margin-top: auto;
+  padding-left: 25px;
+  margin-top: auto;
 }
 
 .comment-container {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .comment-textarea {
-    border-radius: 30px;
-    resize: none;
-    margin-right: 10px; /* Add some margin between textarea and button */
+  border-radius: 30px;
+  resize: none;
+  width: 400px;
+  margin-right: 5px; /* Add some margin between textarea and button */
 }
 
 .comment-button {
-    border-radius: 500px;
-    padding: 10px 12px;
-    margin-top: -10px;
-    background-color: #A99A86;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-}
-
-.comment-container {
-    display: flex;
-    align-items: center;
+  border-radius: 500px;
+  padding: 10px 12px;
+  margin-top: -10px;
+  background-color: #a99a86;
+  color: #fff;
+  border: none;
+  cursor: pointer;
 }
 
 .comment-container p {
-    margin-right: 10px; /* Adjust the spacing between the comment text and the delete button */
+  margin-right: 200px; /* Adjust the spacing between the comment text and the delete button */
 }
 
 .delete-button {
-    background-color: transparent;
-    border: none;
-    color: gray;
-    cursor: pointer; /* Add a cursor pointer to indicate the button is clickable */
+  background-color: transparent;
+  border: none;
+  color: gray;
+  cursor: pointer; /* Add a cursor pointer to indicate the button is clickable */
 }
 /* login */
 .loginwrapper {
-    width: 1000px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 40px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: flex;
+  width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
 }
 
 .image-container {
-    flex: 1;
-    padding-right: 10px;
-    border-right: 1px solid #ccc;
+  flex: 1;
+  padding-right: 10px;
+  border-right: 1px solid #ccc;
 }
 
 .user-image {
-    width: 100%;
-    max-width: 350px;
-    border-radius: 25px;
+  width: 100%;
+  max-width: 350px;
+  border-radius: 25px;
 }
 
 .form-container {
-    flex: 1;
-    padding-left: 10px;
+  flex: 1;
+  padding-left: 30px;
+  margin-top: 50px;
 }
 
 .form-container h2 {
-    margin-top: 0;
+  margin-bottom: 10px;
+}
+#login {
+  margin-bottom: 30px;
 }
 
 .form-container form label {
-    display: block;
-    margin-bottom: 5px;
+  display: block;
+  margin-bottom: 5px;
 }
 
 .form-container form input[type="text"],
 .form-container form input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 10px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
 }
 
 .form-container form input[type="submit"] {
-    background-color: #A99A86;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+  background-color: #a99a86;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .form-container form input[type="submit"]:hover {
-    background-color: #856d52;
+  background-color: #856d52;
 }
 
-.form-container .error-message {
-    color: red;
-    margin-bottom: 10px;
-    text-align: center;
+.form-container .error_message {
+  color: red;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+footer {
+  background-color: #edeae4;
+  color: #000000;
+  padding: 20px;
+  margin-top: 20px;
+  text-align: center;
 }

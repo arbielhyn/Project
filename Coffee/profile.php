@@ -42,19 +42,14 @@ $statement_comment->execute();
 <body>
     <?php include('nav.php'); ?>
 
-    <a href="index.php" class="back-button">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
-        </svg>
-    </a>
     
     <section class="manage">
         <div class="tab">
-            <button class="tablinks" onclick="toggleTable('cafeTable')">Show Cafe</button>
-            <button class="tablinks" onclick="toggleTable('categoryTable')">Show Category</button>
+            <button class="tablinks" onclick="toggleTable('cafeTable', this)">Show Cafe</button>
+            <button class="tablinks" onclick="toggleTable('categoryTable', this)">Show Category</button>
             <?php if (isset($_SESSION['user_type']) && $_SESSION ['user_type'] === 'admin'): ?> <!-- Check if the user is an admin -->
-                <button class="tablinks" onclick="toggleTable('userTable')">Manage Users</button>
-                <button class="tablinks" onclick="toggleTable('commentTable')">Manage Comments</button>
+                <button class="tablinks" onclick="toggleTable('userTable', this)">Manage Users</button>
+                <button class="tablinks" onclick="toggleTable('commentTable', this)">Manage Comments</button>
             <?php endif ?>
         </div>
 
@@ -62,9 +57,9 @@ $statement_comment->execute();
             <table class="info" id="cafeTable">
                 <thead>
                     <tr>
-                        <th><h3>Name</h3></th>
-                        <th colspan="2"><h3> <!-- Span across two columns -->
-                            <a href="coffee.php" class="add-button">+ Add</a></h3>
+                        <th>Name</th>
+                        <th colspan="2"> <!-- Span across two columns -->
+                            <a href="coffee.php" class="add-button">+ Add</a>
                         </th>
                     </tr>
                 </thead>
@@ -119,9 +114,9 @@ $statement_comment->execute();
             <table class="info" id="commentTable">
             <thead>
                 <tr>
-                    <th><h3>Name</h3></th>
-                    <th><h3>Comment</h3></th>
-                    <th><h3>Delete</h3></th>
+                    <th>Name</th>
+                    <th>Comment</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -146,16 +141,35 @@ $statement_comment->execute();
         <p>&copy; 2024 Coffee Shop Guide CMS. All rights reserved.</p>
     </footer>
     <script>
+            function toggleTable(tableId) {
+                var tables = document.querySelectorAll('.info');
+                for (var i = 0; i < tables.length; i++) {
+                    tables[i].style.display = "none";
+                }
+                var table = document.getElementById(tableId);
+                table.style.display = "block";
+            }
+
             window.onload = function() {
-        toggleTable('cafeTable'); // Open cafe table by default when the page loads
-    };
-        function toggleTable(tableId) {
+                var cafeButton = document.querySelector('.tab button:nth-child(1)');
+                toggleTable('cafeTable', cafeButton); // Open cafe table by default when the page loads
+            };
+        var activeTab = null; // Variable to store the active tab
+
+        function toggleTable(tableId, button) {
             var tables = document.querySelectorAll('.info');
             for (var i = 0; i < tables.length; i++) {
                 tables[i].style.display = "none";
             }
             var table = document.getElementById(tableId);
             table.style.display = "block";
+
+            if (activeTab !== null) {
+                activeTab.classList.remove('active');
+            }
+
+            button.classList.add('active');
+            activeTab = button;
         }
     </script>
 </body>

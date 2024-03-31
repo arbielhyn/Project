@@ -54,7 +54,7 @@ if ($_POST && isset($_POST['Name']) && isset($_POST['Description']) && isset($_P
 
                 // Resize and crop the image
                 $image = new \Gumlet\ImageResize($new_image_path);
-                $image->crop(500, 500); // Crop the image to 250x250 pixels
+                $image->crop(550, 550); // Crop the image to 250x250 pixels
                 $image->save($new_image_path);
             } else {
                 echo "Failed to upload image. Please try again.";
@@ -147,9 +147,15 @@ if ($_POST && isset($_POST['Name']) && isset($_POST['Description']) && isset($_P
             <select id="Categories" name="Category">
                 <option value="">Select Category</option>
                 <?php foreach ($categories as $category): ?>
-                    <option value="<?= $category['type_id'] ?>">
-                        <?= $category['type'] ?>
-                    </option>
+                    <?php if ($category['type_id'] == $shop['category_id']): ?>
+                        <option value="<?= $category['type_id'] ?>" selected>
+                            <?= $category['type'] ?>
+                        </option>
+                    <?php else: ?>
+                        <option value="<?= $category['type_id'] ?>">
+                            <?= $category['type'] ?>
+                        </option>
+                    <?php endif; ?>
                 <?php endforeach; ?>
             </select><br>
 
@@ -185,7 +191,6 @@ if ($_POST && isset($_POST['Name']) && isset($_POST['Description']) && isset($_P
             });
         });
 
-        $('#summernote').summernote();
     </script>
 </body>
 </html>

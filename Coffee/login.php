@@ -54,7 +54,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
 
         <div class="form-container">
             <div>
+                <div id="login">
                 <h2>Log In</h2>
+                <p>New around here? <a href="register.php">sign up</a> and be part of the community</p>
+                </div>
                 <!-- Display login error message if any -->
                 <?php if (!empty($login_error)): ?>
                     <p style="color: red;"><?php echo $login_error; ?></p>
@@ -76,9 +79,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
                         <input type="submit" value="Login">
                     </div>
                 </form>
-            </div>
-            <div>
-                <p>or <a href="register.php">sign up</a></p>
             </div>
         </div>
     </div>
