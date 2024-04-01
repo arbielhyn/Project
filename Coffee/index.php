@@ -26,6 +26,7 @@ $statement->execute();
 <body>
     <?php include('nav.php'); ?>
     <main>
+
         <!-- Display categories as buttons -->
         <section class="category-buttons">
             <button class="category-button" onclick="window.location.href='index.php';">All</button>
@@ -35,7 +36,7 @@ $statement->execute();
                 </button>
             <?php endwhile; ?>
         </section>
-        
+
         <section class="posts">
             <!-- Display coffee shop listings dynamically from the database -->
             <?php while($row = $statement->fetch()): ?>

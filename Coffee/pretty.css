@@ -17,7 +17,7 @@ header {
   width: 100%;
   background-color: #edeae4;
   color: #000000;
-  padding: 10px 20px;
+  padding: 20px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -88,6 +88,9 @@ nav ul li a:hover::before {
   outline: none;
 }
 
+.search input[type="text"]:hover {
+  background-color: #ffffff;
+}
 /* Media query for smaller screens */
 @media screen and (max-width: 768px) {
   .search input[type="text"] {
@@ -106,9 +109,10 @@ nav ul li a:hover::before {
 
 /* index styles */
 main {
-  padding: 20px;
-  margin-top: -45px;
+  padding: 25px;
+  margin-top: -40px;
 }
+
 .category-buttons {
   display: flex;
   justify-content: center;
@@ -127,6 +131,7 @@ main {
 .category-button:hover {
   background-color: #856d52;
 }
+
 /* post listing */
 .posts {
   display: flex;
@@ -134,7 +139,7 @@ main {
 }
 .coffee-shop-card {
   width: 25%;
-  padding: 7px;
+  padding: 0px;
   cursor: pointer; /* Add cursor pointer */
   transition: transform 0.3s; /* Add transition */
   text-decoration: none; /* Remove underline from the link */
