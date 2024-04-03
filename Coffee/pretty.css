@@ -155,7 +155,7 @@ main {
   border-radius: 15px;
   padding: 20px;
   width: calc(100% - 20px);
-  height: 200px;
+  height: 300px;
   margin: 10px 10px 10px 10px;
   transition: height 0.3s;
   display: flex;
@@ -294,9 +294,28 @@ button:hover {
 }
 
 .name-cell {
-  width: calc(
-    100% - 100px
-  ); /* Adjust the width of the name cell based on the edit cell width */
+  width: 900px;
+}
+
+select {
+  padding: 10px; /* Adjust padding as needed */
+  font-size: 16px; /* Adjust font size as needed */
+  border: 1px solid #ccc; /* Border style */
+  border-radius: 5px; /* Border radius for rounded corners */
+  background-color: #fff; /* Background color */
+  color: #333; /* Text color */
+  appearance: none; /* Remove default appearance (browsers specific) */
+}
+
+/* Style when select is hovered */
+select:hover {
+  border-color: #aaa; /* Change border color on hover */
+}
+
+/* Style when select is focused */
+select:focus {
+  border-color: #007bff; /* Change border color when focused */
+  outline: none; /* Remove default outline */
 }
 /* Tab styling */
 .tab {

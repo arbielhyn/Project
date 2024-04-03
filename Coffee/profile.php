@@ -27,29 +27,21 @@ $statement_comment->execute();
 $sortOption = isset($_GET['sort']) ? $_GET['sort'] : 'default';
 
 // Construct your SQL query
-$sql = "SELECT comments.*, cafe.Name AS shop_name 
-         FROM comments 
-         INNER JOIN cafe ON comments.shop_id = cafe.Shop_id";
+$sql = "SELECT * FROM cafe";
 
 // Apply sorting
 switch ($sortOption) {
     case 'name_asc':
-        $sql .= " ORDER BY cafe.Name ASC"; // Sorting by cafe name
+        $sql .= " ORDER BY Name ASC";
         break;
     case 'name_desc':
-        $sql .= " ORDER BY cafe.Name DESC"; // Sorting by cafe name in descending order
-        break;
-    case 'comments_asc':
-        $sql .= " ORDER BY comments.comment ASC"; // Sorting by comments in ascending order
-        break;
-    case 'comments_desc':
-        $sql .= " ORDER BY comments.comment DESC"; // Sorting by comments in descending order
+        $sql .= " ORDER BY Name DESC";
         break;
     case 'created_at_asc':
-        $sql .= " ORDER BY comments.created_at ASC"; // Sorting by creation date in ascending order
+        $sql .= " ORDER BY created_at ASC";
         break;
     case 'created_at_desc':
-        $sql .= " ORDER BY comments.created_at DESC"; // Sorting by creation date in descending order
+        $sql .= " ORDER BY created_at DESC";
         break;
     default:
         // Default sorting option or no sorting option specified
@@ -57,8 +49,8 @@ switch ($sortOption) {
 }
 
 // Prepare and execute your SQL query
-$statement_comment = $db->prepare($sql);
-$statement_comment->execute();
+$statement_cafe = $db->prepare($sql);
+$statement_cafe->execute();
 
 ?>
 <!DOCTYPE html> 
@@ -88,12 +80,9 @@ $statement_comment->execute();
                 <button class="tablinks" onclick="toggleTable('userTable', this)">Manage Users</button>
                 <button class="tablinks" onclick="toggleTable('commentTable', this)">Manage Comments</button>
                 <form id="sortForm" action="" method="get">
-                    <label>Filter</label>
                     <select name="sort" id="sortSelect" onchange="this.form.submit();">
                         <option value="name_asc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'name_asc') ? 'selected' : '' ?>>Drinks A-Z</option>
                         <option value="name_desc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'name_desc') ? 'selected' : '' ?>>Drinks Z-A</option>
-                        <option value="comments_asc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'comments_asc') ? 'selected' : '' ?>>Commennts A-Z</option>
-                        <option value="comments_desc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'comments_desc') ? 'selected' : '' ?>>Comments Z-A</option>
                         <option value="created_at_desc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'created_at_desc') ? 'selected' : '' ?>>Recently Added</option>
                         <option value="created_at_asc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'created_at_asc') ? 'selected' : '' ?>>Previosly Added</option>
                     </select>
@@ -106,6 +95,7 @@ $statement_comment->execute();
                 <thead>
                     <tr>
                         <th>Name</th>
+                        <th>Posted On</th>
                         <th> <!-- Span across two columns -->
                             <a href="coffee.php" class="add-button">+ Add</a>
                         </th>
@@ -115,6 +105,7 @@ $statement_comment->execute();
                     <?php while($row = $statement_cafe->fetch()): ?>
                     <tr class="edit-wrapper">
                         <td class="edit-cell"><?= $row['Name'] ?></td>
+                        <td class="edit-cell"><?= date('F d, Y', strtotime($row['created_at'])) ?></td>
                         <td class="name-cell"><a href="update.php?id=<?= $row['Shop_id'] ?>"><button>Edit</button></a></td>
                     </tr>
                     <?php endwhile; ?>
@@ -134,7 +125,7 @@ $statement_comment->execute();
                     <?php while($row = $statement_category->fetch()): ?>
                     <tr>
                         <td class="edit-cell"><?= $row['type'] ?></td>
-                        <td class="name-cell"><a href="type.php?id=<?= $row['type_id'] ?>"><button>Edit</button></a></td>
+                        <td class="name-cell"><a href="edittype.php?id=<?= $row['type_id'] ?>"><button>Edit</button></a></td>
                     </tr>
                     <?php endwhile; ?>
                 </tbody>
@@ -144,6 +135,7 @@ $statement_comment->execute();
                 <thead>
                     <tr>
                         <th>Users</th>
+                        <th>Type</th>
                         <th colspan="2"> <!-- Span across two columns -->
                             <a href="adduser.php" class="add-button">+ Add</a>
                         </th>
@@ -152,7 +144,8 @@ $statement_comment->execute();
                 <tbody>
                     <?php while($row = $statement_user->fetch()): ?>
                     <tr>
-                        <td class="edit-cell"><?= $row['Username'] ?></td>
+                        <td class="name-cell"><?= $row['Username'] ?></td>
+                        <td class="edit-cell"><?= $row['user_type'] ?></td>
                         <td class="name-cell"><a href="user.php?id=<?= $row['user_id'] ?>"><button>Edit</button></a></td>
                     </tr>
                     <?php endwhile; ?>
@@ -164,7 +157,6 @@ $statement_comment->execute();
                 <tr>
                     <th>Name</th>
                     <th>Comment</th>
-                    <th>Posted On</th>
                     <th>Delete</th>
                 </tr>
             </thead>
@@ -173,7 +165,6 @@ $statement_comment->execute();
                     <tr class="edit-wrapper">
                         <td class="name-cell"><?= $row['shop_name'] ?></td>
                         <td class="edit-cell"><?= $row['comment'] ?></td>
-                        <td class="edit-cell"><?= $row['created_at'] ?></td>
                         <td class="name-cell">
                             <form action="editcomment.php" method="POST">
                                 <input type="hidden" name="comment_id" value="<?= $row['comment_id'] ?>">

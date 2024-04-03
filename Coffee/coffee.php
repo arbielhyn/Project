@@ -73,12 +73,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         
         // Insert coffee shop data into the database
-        $query = "INSERT INTO cafe (name, description, image) VALUES (:Name, :Description, :Image)";
+        $query = "INSERT INTO cafe (name, description, image, category_id) VALUES (:Name, :Description, :Image, :Category)";
         $statement = $db->prepare($query);
         $statement->bindValue(':Name', $name);
         $statement->bindValue(':Description', $description);
         $statement->bindValue(':Image', $image_filename); // Save only the image filename
-
+        $statement->bindValue(':Category', $_POST['Category']); // Bind the selected category
+        
         if ($statement->execute()) {
             echo "<script>alert('Success');</script>";
         } else {
@@ -117,12 +118,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <textarea id="Description" name="Description" rows="4"></textarea><br>
 
         <label for="Categories">Category</label>
-            <select id="Categories" name="Category">
+        <select id="Categories" name="Category">
                 <option value="">Select Category</option>
                 <?php foreach ($categories as $category): ?>
-                    <option value="<?= $category['type_id'] ?>">
-                        <?= $category['type'] ?>
-                    </option>
+                    <?php if ($category['type_id'] == $shop['category_id']): ?>
+                        <option value="<?= $category['type_id'] ?>" selected>
+                            <?= $category['type'] ?>
+                        </option>
+                    <?php else: ?>
+                        <option value="<?= $category['type_id'] ?>">
+                            <?= $category['type'] ?>
+                        </option>
+                    <?php endif; ?>
                 <?php endforeach; ?>
             </select><br>
 
