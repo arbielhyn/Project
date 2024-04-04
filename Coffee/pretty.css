@@ -90,21 +90,18 @@ nav ul li a:hover::before {
 
 .search input[type="text"]:hover {
   background-color: #ffffff;
+  box-shadow: 0 10px 15px -3px rgba(255, 255, 255, 0),
+    0 4px 6px -2px rgba(255, 255, 255, 0);
+}
+
+.search input[type="text"]:focus {
+  box-shadow: 0 0 1em #00000013;
 }
 /* Media query for smaller screens */
 @media screen and (max-width: 768px) {
   .search input[type="text"] {
     width: 300px; /* Adjust width for smaller screens */
   }
-}
-
-.search button {
-  background-color: #a99a86;
-  color: #fff;
-  cursor: pointer;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 50px;
 }
 
 /* index styles */
@@ -138,24 +135,30 @@ main {
   flex-wrap: wrap;
 }
 .coffee-shop-card {
-  width: 25%;
+  width: 20%;
   padding: 0px;
   cursor: pointer; /* Add cursor pointer */
   transition: transform 0.3s; /* Add transition */
   text-decoration: none; /* Remove underline from the link */
 }
 
+@media screen and (max-width: 768px) {
+  .coffee-shop-card {
+    width: 30%; /* Adjust the width for smaller screens */
+  }
+}
 .coffee-shop-card:hover {
   transform: scale(1.05); /* Increase size on hover */
 }
 
 .coffee-shop {
   background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  box-shadow: 0 10px 15px -3px rgba(255, 255, 255, 0),
+    0 4px 6px -2px rgba(255, 255, 255, 0);
   border-radius: 15px;
   padding: 20px;
   width: calc(100% - 20px);
-  height: 300px;
+  height: 250px;
   margin: 10px 10px 10px 10px;
   transition: height 0.3s;
   display: flex;
@@ -170,6 +173,9 @@ main {
   text-align: center;
   margin: 0;
   width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .coffee-shop p {
@@ -190,6 +196,28 @@ a {
 
 a:hover {
   color: #a8a298;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+  background-color: #a99a86; /* Change the background color to match your site */
+  background-position-x: 0%;
+  background-size: 30%; /* Adjust the background size to make it smaller */
+  border: 0;
+  border-radius: 8px;
+  color: #fff;
+  padding: 0.5rem 0.75rem; /* Adjust padding to make it smaller */
+  transition: all 0.25s;
+}
+
+input[type="file"]::-webkit-file-upload-button:hover {
+  background-color: #856d52; /* Change the background color to match your site */
+  background-position-x: 100%;
+}
+
+/* Error message styling */
+.error-message {
+  color: red;
+  margin-top: 10px;
 }
 
 /* profile page */
@@ -263,38 +291,36 @@ button:hover {
   margin: 0 auto; /* Center the tables horizontally */
 }
 
-.info th,
-.info td {
-  padding: 12px;
-  text-align: left;
-}
-
 .info th {
   border-bottom: 1px solid #ccc; /* Add a solid black border bottom */
 }
 
-.info td {
+.info td,
+.info th {
   padding: 12px;
   text-align: left;
   position: relative;
+  border-bottom: 1px solid #ccc; /* Add a solid bottom border to each row */
 }
 
-.info td:not(:last-child):after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 111%;
-  height: 1px;
-  background-color: #ddd;
+.info td button {
+  background-color: #a99a86;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s; /* Smooth transition for button hover effect */
+}
+.info td button:hover {
+  background-color: #856d52; /* Darker color on button hover */
 }
 
 .edit-cell {
-  width: 850px; /* Adjust the width of the edit cell as needed */
+  width: 800px; /* Adjust the width of the edit cell */
 }
 
 .name-cell {
-  width: 900px;
+  width: calc(100% - 50px); /* Adjust the width of the name cell */
 }
 
 select {
@@ -307,16 +333,15 @@ select {
   appearance: none; /* Remove default appearance (browsers specific) */
 }
 
-/* Style when select is hovered */
 select:hover {
   border-color: #aaa; /* Change border color on hover */
 }
 
-/* Style when select is focused */
 select:focus {
   border-color: #007bff; /* Change border color when focused */
   outline: none; /* Remove default outline */
 }
+
 /* Tab styling */
 .tab {
   overflow: hidden;
@@ -437,7 +462,7 @@ a.back-button {
 }
 /* login */
 .loginwrapper {
-  width: 1000px;
+  width: 900px;
   margin: 20px auto;
   padding: 20px;
   background-color: #fff;
@@ -478,7 +503,7 @@ a.back-button {
 
 .form-container form input[type="text"],
 .form-container form input[type="password"] {
-  width: 100%;
+  width: 85%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
