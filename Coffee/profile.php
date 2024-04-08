@@ -43,6 +43,12 @@ switch ($sortOption) {
     case 'created_at_desc':
         $sql .= " ORDER BY created_at DESC";
         break;
+    case 'updated_at_asc':
+        $sql .= " ORDER BY updated_at ASC";
+        break;
+    case 'updated_at_desc':
+        $sql .= " ORDER BY updated_at DESC";
+        break;
     default:
         // Default sorting option or no sorting option specified
         break;
@@ -85,6 +91,8 @@ $statement_cafe->execute();
                         <option value="name_desc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'name_desc') ? 'selected' : '' ?>>Drinks Z-A</option>
                         <option value="created_at_desc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'created_at_desc') ? 'selected' : '' ?>>Recently Added</option>
                         <option value="created_at_asc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'created_at_asc') ? 'selected' : '' ?>>Previosly Added</option>
+                        <option value="updated_at_asc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'updated_at_asc') ? 'selected' : '' ?>>Recently Updated</option>
+                        <option value="updated_at_desc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'updated_at_desc') ? 'selected' : '' ?>>Previosly Updated</option>
                     </select>
                 </form>
             <?php endif ?>
@@ -96,6 +104,7 @@ $statement_cafe->execute();
                     <tr>
                         <th>Name</th>
                         <th>Posted On</th>
+                        <th>Updated On</th>
                         <th> <!-- Span across two columns -->
                             <a href="coffee.php" class="add-button">+ Add</a>
                         </th>
@@ -106,6 +115,7 @@ $statement_cafe->execute();
                     <tr class="edit-wrapper">
                         <td class="edit-cell"><?= $row['Name'] ?></td>
                         <td class="edit-cell"><?= date('F d, Y', strtotime($row['created_at'])) ?></td>
+                        <td class="edit-cell"><?= date('F d, Y', strtotime($row['updated_at'])) ?></td>
                         <td class="name-cell"><a href="update.php?id=<?= $row['Shop_id'] ?>"><button>Edit</button></a></td>
                     </tr>
                     <?php endwhile; ?>

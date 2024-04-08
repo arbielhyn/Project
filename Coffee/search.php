@@ -3,7 +3,7 @@ session_start();
 require('connection.php');
 
 // Pagination configuration
-$itemsPerPage = 4; // Number of items per page
+$itemsPerPage = 5; // Number of items per page
 
 // Initialize search results variable
 $searchResults = '';

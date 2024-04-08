@@ -4,6 +4,8 @@ require('authentication.php');
 require('/Applications/XAMPP/xamppfiles/htdocs/wd2/Project(Github)/Coffee/php-image-resize-master/lib/ImageResize.php');
 require('/Applications/XAMPP/xamppfiles/htdocs/wd2/Project(Github)/Coffee/php-image-resize-master/lib/ImageResizeException.php');
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 // Function to validate coffee shop details
 function isValidCoffeeShop($name, $description) {
     return strlen($name) >= 1 && strlen($description) >= 1;
@@ -35,30 +37,81 @@ if ($_POST && isset($_POST['Name']) && isset($_POST['Description']) && isset($_P
     $category_id = isset($_POST['Category']) && $_POST['Category'] !== '' ? filter_input(INPUT_POST, 'Category', FILTER_SANITIZE_NUMBER_INT) : null;
     $id      = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
 
+    // Check if the "Remove Image" checkbox is checked
+    $removeImage = isset($_POST['removeImage']);
+
+    // Handle image removal if the checkbox is checked
+    if ($removeImage) {
+        // Get the current image filename from the database
+        $queryGetImage = "SELECT Image FROM cafe WHERE Shop_id = :Shop_id";
+        $statementGetImage = $db->prepare($queryGetImage);
+        $statementGetImage->bindValue(':Shop_id', $id, PDO::PARAM_INT);
+        $statementGetImage->execute();
+        $row = $statementGetImage->fetch(PDO::FETCH_ASSOC);
+        $currentImage = $row['Image'];
+
+        // Delete the image file from the file system
+        if (!empty($currentImage)) {
+            $imagePath = 'uploads/' . $currentImage;
+            if (file_exists($imagePath)) {
+                unlink($imagePath); // Remove the image file
+            }
+        }
+
+        // Update the database to remove the image filename
+        $queryRemoveImage = "UPDATE cafe SET Image = NULL WHERE Shop_id = :Shop_id";
+        $statementRemoveImage = $db->prepare($queryRemoveImage);
+        $statementRemoveImage->bindValue(':Shop_id', $id, PDO::PARAM_INT);
+        $statementRemoveImage->execute();
+    }
+
     // Validate coffee shop details
     if (isValidCoffeeShop($name, $description)) {
         // Check if an image file was uploaded
         if (!empty($_FILES['image']['name'])) {
-            $image_filename = $_FILES['image']['name']; // Get the image filename
-            $temporary_image_path = $_FILES['image']['tmp_name'];
-            $new_image_path = 'uploads/' . $image_filename; // Destination path for the image
+            // Get the uploaded file's extension
+            $file_extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
 
-            // Move the uploaded image to the destination directory
-            if (move_uploaded_file($temporary_image_path, $new_image_path)) {
-                // Update the 'Image' column in the database with the new image filename
-                $query = "UPDATE cafe SET Image = :Image WHERE Shop_id = :Shop_id";
-                $statement = $db->prepare($query);
-                $statement->bindValue(':Image', $image_filename);
-                $statement->bindValue(':Shop_id', $id, PDO::PARAM_INT);
-                $statement->execute();
+// Check if the uploaded file is a PDF
+if ($file_extension !== ['pdf', 'docx']) {
+    // Check if the file extension is not one of the allowed image types
+    if (!in_array(strtolower($file_extension), ['jpg', 'jpeg', 'png', 'gif'])) {
+        // Display error message and redirect
+        echo "<script>alert('Failed to upload image. Please ensure you are uploading a valid image file (JPEG, PNG, or GIF).');</script>";
+        echo "<script>window.location = 'update.php?id={$id}';</script>";
+        exit;
+    }
 
-                // Resize and crop the image
-                $image = new \Gumlet\ImageResize($new_image_path);
-                $image->crop(550, 550); // Crop the image to 250x250 pixels
-                $image->save($new_image_path);
-            } else {
-                echo "Failed to upload image. Please try again.";
-            }
+    // Proceed with image upload
+    $image_filename = $_FILES['image']['name'];
+    $temporary_image_path = $_FILES['image']['tmp_name'];
+    $new_image_path = 'uploads/' . $image_filename;
+
+    // Move the uploaded image to the destination directory
+    if (move_uploaded_file($temporary_image_path, $new_image_path)) {
+        // Update the 'Image' column in the database with the new image filename
+        $query = "UPDATE cafe SET Image = :Image WHERE Shop_id = :Shop_id";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':Image', $image_filename);
+        $statement->bindValue(':Shop_id', $id, PDO::PARAM_INT);
+        $statement->execute();
+
+        // Resize and crop the image
+        $image = new \Gumlet\ImageResize($new_image_path);
+        $image->crop(550, 550); // Crop the image to 250x250 pixels
+        $image->save($new_image_path);
+    } else {
+        // Display error message and redirect
+        echo "<script>alert('Failed to upload image. Please try again.');</script>";
+        echo "<script>window.location = 'update.php?id={$id}';</script>";
+        exit;
+    }
+} else {
+    // Display error message and redirect
+    echo "<script>alert('Failed to upload image. Please select an image file.');</script>";
+    echo "<script>window.location = 'update.php?id={$id}';</script>";
+    exit;
+}
         }
 
         // Build the parameterized SQL query and bind to the above sanitized values.

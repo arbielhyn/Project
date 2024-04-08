@@ -35,21 +35,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($_POST['Name']) && !empty($_POST['Description'])) {
         $name = filter_input(INPUT_POST, 'Name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $description = filter_input(INPUT_POST, 'Description', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
+        $image_filename = ''; // Initialize the image filename variable
+        
         // Check if an image file was uploaded
         if (!empty($_FILES['image']['name'])) {
-            $image_filename = $_FILES['image']['name']; // Get the image filename
             $temporary_image_path = $_FILES['image']['tmp_name'];
-            $new_image_path = file_upload_path($image_filename);
+            $new_image_path = file_upload_path($_FILES['image']['name']);
             
             // Validate the uploaded image
             if (file_is_an_image($temporary_image_path, $new_image_path)) {
                 // Move the uploaded image to the final destination
                 move_uploaded_file($temporary_image_path, $new_image_path);
-                
-                // Check if the file extension is not 'pdf'
-                $file_extension = pathinfo($new_image_path, PATHINFO_EXTENSION);
-                if ($file_extension !== 'pdf') {
+
                 // Resize the image to fit within 250x250 dimensions
                 $image = new \Gumlet\ImageResize($new_image_path);
                 $image->crop(550, 550);
@@ -59,17 +56,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 // Save the image
                 $image->save($new_image_path);
-                } else {
-                    // Image upload failed validation
-                    echo "Failed to upload image. PDF files are not allowed.";
-                }
+                
+                // Set the image filename only if it's an image
+                $image_filename = $_FILES['image']['name'];
             } else {
                 // Image upload failed validation
-                echo "Failed to upload image. Please ensure you are uploading a valid image file (JPEG, PNG, or GIF).";
+                echo "<script>alert('Failed to upload image. Please ensure you are uploading a valid image file (JPEG, PNG, or GIF).');</script>";
+                echo "<script>window.location = 'coffee.php';</script>"; // Redirect back to coffee.php
+                exit;
             }
         } else {
-            // If no image was uploaded, set the filename to null
-            $image_filename = null;
+            // No image file uploaded
+            echo "<script>alert('Failed to upload image. Please select an image file.');</script>";
+            echo "<script>window.location = 'coffee.php';</script>"; // Redirect back to coffee.php
+            exit;
         }
         
         // Insert coffee shop data into the database
