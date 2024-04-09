@@ -34,7 +34,7 @@ $categories = $categoriesStatement->fetchAll(PDO::FETCH_ASSOC);
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($_POST['Name']) && !empty($_POST['Description'])) {
         $name = filter_input(INPUT_POST, 'Name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $description = filter_input(INPUT_POST, 'Description', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $description = ($_POST['Description']);
         $image_filename = ''; // Initialize the image filename variable
         
         // Check if an image file was uploaded
@@ -98,6 +98,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add New Coffee Shop</title>
     <link rel="stylesheet" href="pretty.css">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Summernote JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 </head>
 <body>
 <?php include('nav.php'); ?>
@@ -109,8 +114,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </a>
 
 <div class="container">
-    <h1>Add New Coffee Shop</h1>
     <form class="coffeeShopForm" action="coffee.php" method="POST" enctype="multipart/form-data">
+    <h4>Add New Coffee Shop</h4>
         <label for="Name">Name:</label>
         <input type="text" id="Name" name="Name"><br>
 
@@ -140,5 +145,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </form>
 
 </div>
+            <!-- Summernote Initialization Script -->
+            <script>
+        $(document).ready(function() {
+            $('#Description').summernote({
+                placeholder: 'Enter description here...',
+                tabsize: 2,
+                height: 120,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ]
+            });
+        });
+
+    </script>
 </body>
 </html>

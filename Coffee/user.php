@@ -26,21 +26,33 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["delete_user"])) {
 }
 
 // UPDATE coffee user if Username, Password, id, and UserType are present in POST.
-if ($_POST && isset($_POST['Username']) && isset($_POST['Password']) && isset($_POST['id']) && isset($_POST['UserType'])) {
+if ($_POST && isset($_POST['Username']) && isset($_POST['id'])) {
     // Sanitize user input to escape HTML entities and filter out dangerous characters.
-    $username  = filter_input(INPUT_POST, 'Username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $password = filter_input(INPUT_POST, 'Password', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $userType = filter_input(INPUT_POST, 'UserType', FILTER_SANITIZE_STRING);
-    $id      = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+    $username = filter_input(INPUT_POST, 'Username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+
+    // Retrieve old password from the database
+    $query_password = "SELECT Password FROM user WHERE user_id = :user_id";
+    $statement_password = $db->prepare($query_password);
+    $statement_password->bindValue(':user_id', $id, PDO::PARAM_INT);
+    $statement_password->execute();
+    $old_password = $statement_password->fetchColumn();
+
+    // If user inputs a new password, hash it
+    if (!empty($_POST['Password'])) {
+        $password = password_hash($_POST['Password'], PASSWORD_DEFAULT);
+    } else {
+        // If password field is empty, retain the old password
+        $password = $old_password;
+    }
 
     // Validate coffee user details
     if (isValidCoffeeuser($username, $password)) {
         // Build the parameterized SQL query and bind to the above sanitized values.
-        $query = "UPDATE user SET Username = :Username, Password = :Password, user_type = :UserType WHERE user_id = :user_id";
+        $query = "UPDATE user SET Username = :Username, Password = :Password WHERE user_id = :user_id";
         $statement = $db->prepare($query);
         $statement->bindValue(':Username', $username);
         $statement->bindValue(':Password', $password);
-        $statement->bindValue(':UserType', $userType);
         $statement->bindValue(':user_id', $id, PDO::PARAM_INT);
 
         // Execute the UPDATE.
@@ -98,14 +110,8 @@ if ($_POST && isset($_POST['Username']) && isset($_POST['Password']) && isset($_
             <label for="Username">Username</label>
             <input type="text" id="Username" name="Username" value="<?= $user['Username'] ?>"><br>
             
-            <label for="Password">Password</label>
-            <input type="text" id="Password" name="Password" value="<?= $user['Password'] ?>"><br>
-
-            <label for="UserType">User Type</label>
-            <select id="UserType" name="UserType">
-                <option value="regular" <?= ($user['user_type'] === 'regular') ? 'selected' : '' ?>>Regular</option>
-                <option value="admin" <?= ($user['user_type'] === 'admin') ? 'selected' : '' ?>>Admin</option>
-            </select><br>
+            <label for="Password">Change Password <i>(Leave blank to keep current)</i></label>
+            <input type="password" id="Password" name="Password"><br>
             
             <button type="submit" value="Update">Update</button>
             <button type="submit" name="delete_user" value="Delete" onclick="return confirm('Are you sure you want to delete this user?');">Delete</button>

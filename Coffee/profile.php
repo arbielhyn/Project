@@ -91,8 +91,8 @@ $statement_cafe->execute();
                         <option value="name_desc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'name_desc') ? 'selected' : '' ?>>Drinks Z-A</option>
                         <option value="created_at_desc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'created_at_desc') ? 'selected' : '' ?>>Recently Added</option>
                         <option value="created_at_asc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'created_at_asc') ? 'selected' : '' ?>>Previosly Added</option>
-                        <option value="updated_at_asc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'updated_at_asc') ? 'selected' : '' ?>>Recently Updated</option>
-                        <option value="updated_at_desc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'updated_at_desc') ? 'selected' : '' ?>>Previosly Updated</option>
+                        <option value="updated_at_desc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'updated_at_desc') ? 'selected' : '' ?>>Recently Updated</option>
+                        <option value="updated_at_asc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'updated_at_asc') ? 'selected' : '' ?>>Previosly Updated</option>
                     </select>
                 </form>
             <?php endif ?>
@@ -152,13 +152,15 @@ $statement_cafe->execute();
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while($row = $statement_user->fetch()): ?>
-                    <tr>
-                        <td class="name-cell"><?= $row['Username'] ?></td>
-                        <td class="edit-cell"><?= $row['user_type'] ?></td>
-                        <td class="name-cell"><a href="user.php?id=<?= $row['user_id'] ?>"><button>Edit</button></a></td>
-                    </tr>
-                    <?php endwhile; ?>
+                <?php while ($row = $statement_user->fetch()): ?>
+                    <?php if ($row['user_type'] === 'user'): ?>
+                        <tr>
+                            <td class="name-cell"><?= $row['Username'] ?></td>
+                            <td class="edit-cell"><?= $row['user_type'] ?></td>
+                            <td class="name-cell"><a href="user.php?id=<?= $row['user_id'] ?>"><button>Edit</button></a></td>
+                        </tr>
+                    <?php endif; ?>
+                <?php endwhile; ?>
                 </tbody>
             </table>
 

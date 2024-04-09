@@ -129,7 +129,7 @@ main {
   background-color: #856d52;
 }
 
-/* post listing */
+/* content post */
 .posts {
   display: flex;
   flex-wrap: wrap;
@@ -187,7 +187,6 @@ main {
   display: none;
 }
 
-/* Display additional information when coffee shop is expanded */
 a {
   color: #856d52;
   text-decoration: none;
@@ -197,39 +196,17 @@ a {
 a:hover {
   color: #a8a298;
 }
-
-input[type="file"]::-webkit-file-upload-button {
-  background-color: #a99a86; /* Change the background color to match your site */
-  background-position-x: 0%;
-  background-size: 30%; /* Adjust the background size to make it smaller */
-  border: 0;
-  border-radius: 8px;
-  color: #fff;
-  padding: 0.5rem 0.75rem; /* Adjust padding to make it smaller */
-  transition: all 0.25s;
-}
-
-input[type="file"]::-webkit-file-upload-button:hover {
-  background-color: #856d52; /* Change the background color to match your site */
-  background-position-x: 100%;
-}
-
 /* Error message styling */
 .error-message {
   color: red;
   margin-top: 10px;
 }
+/* update styling */
 
-/* profile page */
 .container {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-}
-
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
 }
 
 .coffeeShopForm {
@@ -239,27 +216,69 @@ h1 {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.coffeeShopForm h4 {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .form-group {
   margin-bottom: 15px;
 }
 
-label {
-  font-weight: bold;
+.coffeeShopForm label {
+  font-weight: 700;
+  font-size: 16px;
+  margin-top: 5px; /* Adjust the margin-top to increase space */
 }
 
 form input[type="text"],
 form input[type="password"],
 form input[type="file"],
-form input[type="checkbox"],
 form select,
 textarea {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc;
   border-radius: 5px;
-  margin-bottom: 10px;
+  margin-top: 0.5rem;
+  margin-bottom: 15px;
+  outline: none;
 }
 
+form input[type="text"],
+form input[type="password"],
+form input[type="checkbox"],
+form select,
+textarea {
+  border: 1px solid #ccc;
+}
+input[type="file"]::-webkit-file-upload-button {
+  background-color: #a99a86;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  margin-left: -10px;
+  transition: background-color 0.25s;
+}
+
+input[type="file"]::-webkit-file-upload-button:hover {
+  background-color: #856d52; /* Change the background color to match your site */
+}
+
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.coffeeShopForm i {
+  margin-left: 10px;
+  font-size: 14px;
+  color: #666;
+}
 button {
   background-color: #a99a86;
   color: white;
@@ -324,22 +343,22 @@ button:hover {
 }
 
 select {
-  padding: 10px; /* Adjust padding as needed */
-  font-size: 16px; /* Adjust font size as needed */
-  border: 1px solid #ccc; /* Border style */
-  border-radius: 5px; /* Border radius for rounded corners */
-  background-color: #fff; /* Background color */
-  color: #333; /* Text color */
-  appearance: none; /* Remove default appearance (browsers specific) */
+  padding: 10px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #333;
+  appearance: none;
 }
 
 select:hover {
-  border-color: #aaa; /* Change border color on hover */
+  border-color: #aaa;
 }
 
 select:focus {
-  border-color: #007bff; /* Change border color when focused */
-  outline: none; /* Remove default outline */
+  border-color: #856d52;
+  outline: none;
 }
 
 /* Tab styling */
@@ -537,6 +556,7 @@ footer {
   text-align: center;
 }
 
+/* search */
 .pagination {
   display: flex;
   justify-content: center;

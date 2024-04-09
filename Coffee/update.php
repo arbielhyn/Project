@@ -4,8 +4,6 @@ require('authentication.php');
 require('/Applications/XAMPP/xamppfiles/htdocs/wd2/Project(Github)/Coffee/php-image-resize-master/lib/ImageResize.php');
 require('/Applications/XAMPP/xamppfiles/htdocs/wd2/Project(Github)/Coffee/php-image-resize-master/lib/ImageResizeException.php');
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 // Function to validate coffee shop details
 function isValidCoffeeShop($name, $description) {
     return strlen($name) >= 1 && strlen($description) >= 1;
@@ -33,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["delete_shop"])) {
 if ($_POST && isset($_POST['Name']) && isset($_POST['Description']) && isset($_POST['Category']) && isset($_POST['id'])) {
     // Sanitize user input to escape HTML entities and filter out dangerous characters.
     $name  = filter_input(INPUT_POST, 'Name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $description = filter_input(INPUT_POST, 'Description', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $description = ($_POST['Description']);
     $category_id = isset($_POST['Category']) && $_POST['Category'] !== '' ? filter_input(INPUT_POST, 'Category', FILTER_SANITIZE_NUMBER_INT) : null;
     $id      = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
 
@@ -113,9 +111,8 @@ if ($file_extension !== ['pdf', 'docx']) {
     exit;
 }
         }
-
         // Build the parameterized SQL query and bind to the above sanitized values.
-        $query     = "UPDATE cafe SET Name = :Name, Description = :Description, category_id = :category_id WHERE Shop_id = :Shop_id";
+        $query = "UPDATE cafe SET Name = :Name, Description = :Description, category_id = :category_id, updated_at = NOW() WHERE Shop_id = :Shop_id";
         $statement = $db->prepare($query);
         $statement->bindValue(':Name', $name);
         $statement->bindValue(':Description', $description);
@@ -186,7 +183,9 @@ if ($file_extension !== ['pdf', 'docx']) {
         <?php if ($error_message): ?>
             <p style="color: red;"><?= $error_message ?></p>
         <?php endif ?>
+
         <form class="coffeeShopForm" method="post" enctype="multipart/form-data">
+        <h4>Update Coffee Shop</h4>
             <input type="hidden" name="id" value="<?= $shop['Shop_id'] ?>"><br>
             
             <label for="Name">Name</label>
@@ -210,23 +209,25 @@ if ($file_extension !== ['pdf', 'docx']) {
                         </option>
                     <?php endif; ?>
                 <?php endforeach; ?>
-            </select><br>
+            </select>
 
-            <label for="image">Image:</label>
-            <input type="file" id="image" name="image"><br>
+            <input type="file" id="image" name="image">
 
             <?php if (!empty($shop['Image'])): ?>
-                <input type="checkbox" id="removeImage" name="removeImage">
-                <label for="removeImage">Remove Image</label><br>
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="removeImage" name="removeImage">
+                    <i>Check off to remove image</i>
+                </div>
             <?php endif; ?>
             
             <button type="submit" value="Update">Update</button>
             <button type="submit" name="delete_shop" value="Delete" onclick="return confirm('Are you sure you want to delete this coffee shop?');">Delete</button>
         </form>
+        </div>
     <?php endif ?>
     </div>
-        <!-- Summernote Initialization Script -->
-        <script>
+            <!-- Summernote Initialization Script -->
+            <script>
         $(document).ready(function() {
             $('#Description').summernote({
                 placeholder: 'Enter description here...',
