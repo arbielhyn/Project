@@ -113,6 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_comment'])) {
             <?php foreach ($comments as $comment): ?>
                 <div class="comment-container">
                     <p><strong><?= $comment['username'] ?>:</strong> <?= $comment['comment'] ?></p><br>
+
                     <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $comment['user_id']) : ?>
                         <form action="show.php?id=<?= $shopId ?>" method="POST">
                             <input type="hidden" name="delete_comment" value="1">

@@ -135,6 +135,7 @@ main {
   padding: 20px;
   font-size: 50px;
 }
+
 /* content post */
 .posts {
   display: flex;
@@ -335,6 +336,7 @@ button:hover {
 .info td:hover > * {
   opacity: 1;
 }
+
 .info td button {
   background-color: #a99a86;
   color: #fff;

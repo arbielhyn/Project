@@ -15,6 +15,7 @@ if (isset($_GET['search'])) {
 
     // Perform SQL query to search for cafes containing the search keyword in their name or description
     $query = "SELECT * FROM cafe WHERE Name LIKE '$search%'";
+
     $statement = $db->prepare($query);
     $statement->execute(); 
 
@@ -54,6 +55,7 @@ if (isset($_GET['search'])) {
     <?php endwhile; ?>
     <?php if ($statement->rowCount() == 0) {
         // No search results found
+
         echo "<p>No search results found. Go back to <a href='index.php'>main page</a></p>";
     } ?>
     </div>

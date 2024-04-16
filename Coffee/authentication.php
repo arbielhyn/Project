@@ -17,7 +17,4 @@
     exit("Access Denied: Username and password required.");
 
   }
-
-   
-
 ?>
